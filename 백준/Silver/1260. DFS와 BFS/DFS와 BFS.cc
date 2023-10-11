@@ -3,46 +3,44 @@
 #include <vector>
 #include <algorithm>
 using namespace std;
-int n,m,v;
 
 vector<int> arr[1001];
-bool visitedDfs[1001];
-bool visitedBfs[1001];
-
+bool visitedD[1001];
+bool visitedB[1001];
 
 void dfs(int now){
-  visitedDfs[now]=true;
   cout<<now<<" ";
+  visitedD[now]=true;
+
   for(int i=0;i<arr[now].size();i++){
     int next=arr[now][i];
-    if(visitedDfs[next]==false){
+    if(visitedD[next]==false){
       dfs(next);
     }
   }
 };
 
 void bfs(int start){
-  queue<int>q;
+  queue<int> q;
   q.push(start);
-  visitedBfs[start]=true;
+  visitedB[start]=true;
 
   while(!q.empty()){
     int now=q.front();
-    cout<<now<<" ";
     q.pop();
+    cout<<now<<" ";
 
     for(int i=0;i<arr[now].size();i++){
       int next=arr[now][i];
-      if(visitedBfs[next]==false){
+      if(visitedB[next]==false){
         q.push(next);
-        visitedBfs[next]=true;
+        visitedB[next]=true;
       }
     }
   }
 }
-
-
 int main(){
+  int n,m,v;
   cin>>n>>m>>v;
   for(int i=0;i<m;i++){
     int start,end;
@@ -51,11 +49,12 @@ int main(){
     arr[end].push_back(start);
   }
 
-  for(int i=1;i<=n;i++){
+  for(int i=0;i<=n;i++){
     sort(arr[i].begin(), arr[i].end());
   }
-  
+
   dfs(v);
   cout<<endl;
   bfs(v);
+
 }
