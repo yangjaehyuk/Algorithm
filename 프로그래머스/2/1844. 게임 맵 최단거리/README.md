@@ -1,10 +1,10 @@
 # [level 2] 게임 맵 최단거리 - 1844 
 
-[문제 링크](https://school.programmers.co.kr/learn/courses/30/lessons/1844) 
+[문제 링크](https://school.programmers.co.kr/learn/courses/30/lessons/1844?language=java) 
 
 ### 성능 요약
 
-메모리: 4.06 MB, 시간: 0.24 ms
+메모리: 52.7 MB, 시간: 14.29 ms
 
 ### 구분
 
@@ -16,7 +16,7 @@
 
 ### 제출 일자
 
-2023년 10월 6일 14:41:43
+2024년 03월 11일 00:04:35
 
 ### 문제 설명
 
