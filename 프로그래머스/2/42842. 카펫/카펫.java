@@ -1,23 +1,31 @@
 import java.util.*;
 class Solution {
+    static int ans1 = 0;
+    static int ans2 = 0;
     public int[] solution(int brown, int yellow) {
-        // br ye
-        // 10 2 [4,3]
-        // 8 1 [3,3]
-        // 24 24 [8,6]
-        // 12 3 [5,3]
-        // 14 4 [6,3]
         int[] answer = new int[2];
-        int plus = brown + yellow;
-        for(int i=3; i<=plus; i++){
-            if(plus % i == 0){
-                int width = plus / i;
-                if((i - 2) * (width - 2) == yellow){
-                    answer[0] = i;
-                    answer[1] = plus / i;
+        int sum = brown + yellow;
+        for(int i=sum;i>=1;i--){
+            if(i<sum/i) break;
+            if(sum%i==0){
+                // System.out.println(i+" "+sum/i);
+                // int width = i;
+                // int height = sum/i;
+                int tmpw = i*2;
+                if(tmpw>brown) continue;
+                else{
+                    int tmph = yellow/(i-2);
+                    if(tmpw + tmph * 2 == brown){
+                        ans1 = i;
+                        ans2 = sum/i;
+                        break;
+                    } 
                 }
+               
             }
         }
+        answer[0] = ans1;
+        answer[1] = ans2;
         return answer;
     }
 }
