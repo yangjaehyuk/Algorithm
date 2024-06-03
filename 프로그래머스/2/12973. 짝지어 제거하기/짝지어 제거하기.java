@@ -4,22 +4,27 @@ class Solution
     public int solution(String s)
     {
         int answer = -1;
+        
         Stack<Character> stack = new Stack<>();
-        char[] arr = s.toCharArray();
-        for(int i=0;i<arr.length;i++){
-            if(stack.empty()){
-                stack.push(arr[i]);
-            }
+        
+        for(int i=0;i<s.length();i++){
+            if(stack.isEmpty()) stack.push(s.charAt(i));
             else{
-                if(stack.peek()==arr[i]){
+                if(stack.peek() == s.charAt(i)){
                     stack.pop();
                     continue;
                 }
-                else stack.push(arr[i]);
+                else stack.push(s.charAt(i));
             }
+            
+            
         }
-        if(stack.size()>0) answer=0;
-        else answer=1;
+
+        // [실행] 버튼을 누르면 출력 값을 볼 수 있습니다.
+        // System.out.println(stack.size());
+        if(stack.isEmpty()) answer = 1;
+        else answer = 0;
+
         return answer;
     }
 }
