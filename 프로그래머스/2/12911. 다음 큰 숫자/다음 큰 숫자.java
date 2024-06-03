@@ -2,20 +2,24 @@ import java.util.*;
 class Solution {
     public int solution(int n) {
         int answer = 0;
-        String binary = Integer.toBinaryString(n);
-        int len = binary.length();
-        int subLen = binary.replace("1","").length();
-        int res = len - subLen;
-        int number = Integer.parseInt(binary, 2);
-        while(true){
-            number++;
-            String tmp = Integer.toBinaryString(number);
-            int len2 = tmp.length();
-            int subLen2 = tmp.replace("1","").length();
-            int res2 = len2 - subLen2;
-            if(res == res2) break;
+        String binaryN = Integer.toBinaryString(n);
+        int Ncnt = 0;
+        for(int i=0;i<binaryN.length();i++){
+            if(binaryN.charAt(i)=='1') Ncnt ++;
         }
-        answer = number;
+        while(true){
+            n++;
+            String tmpBinary = Integer.toBinaryString(n);
+            int tmpCnt = 0;
+            for(int j=0;j<tmpBinary.length();j++){
+                if(tmpBinary.charAt(j)=='1') tmpCnt++;
+            }
+            if(Ncnt == tmpCnt){
+                answer = n;
+                break;
+            }
+            
+        }
         return answer;
     }
 }
