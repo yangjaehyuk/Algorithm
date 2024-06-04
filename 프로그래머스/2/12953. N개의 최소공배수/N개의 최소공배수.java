@@ -1,39 +1,29 @@
-import java.util.*;
 class Solution {
     public int solution(int[] arr) {
-        int answer = 1;
-        List<Integer> list = new ArrayList<>();
-        for(int i=0;i<arr.length;i++){
-            list.add(arr[i]);
-        }
-        Collections.sort(list);
-        int tmpV = 1;
-        for(int i=0;i<list.size()-1;i++){
-            
-            if(i == 0){
-                int second = list.get(i);
-                int first = list.get(i+1);
-                int r = 0;
-                while(second != 0){
-                    r = first % second;
-                    first = second;
-                    second = r;
-                }
-                tmpV *= (list.get(i) * list.get(i+1)) / first;
-            }
+        int answer = 0;
+        int res = 0;
+        for(int i=1;i<arr.length;i++){
+            if(i==1) res = lcm(arr[i-1], arr[i]);
             else{
-                int second = tmpV;
-                int first = list.get(i+1);
-                int r = 0;
-                while(second != 0){
-                    r = first % second;
-                    first = second;
-                    second = r;
-                }
-                tmpV *= list.get(i+1) / first;
+                res = lcm(res, arr[i]);
+                System.out.println(res);
             }
         }
-        answer = tmpV;
+        answer = res;
         return answer;
+    }
+    
+    public static int gcd(int a, int b){
+        int r = 0;
+        while(b!=0){
+            r = a % b;
+            a = b;
+            b = r;
+        }
+        return a;
+    }
+    
+    public static int lcm(int a,int b){
+        return (a*b) / gcd(a,b);
     }
 }
