@@ -1,36 +1,26 @@
-import java.util.*;
 class Solution
 {
     public int solution(int n, int a, int b)
     {
         int answer = 0;
-        // 참가자 번호 a, 경쟁자 번호 b
+        
         while(a!=b){
-            int check = 0;
-            if(a%2 == 0){
-                a /= 2;
-                check++;
+            if(a%2!=0){
+                a++;
             }
-            else{
-                a ++;
-                a /= 2;
-                check++;
+            a/=2;
+            
+            if(b%2!=0){
+                b++;
             }
-            if(b%2 == 0){
-                b /= 2;
-                check++;
-            }
-            else{
-                b ++;
-                b /=2;
-                check++;
-            }
-            if(check == 2) {
-                answer++;
-                n-=2;
-            }
+            b/=2;
+            answer++;
+            
             
         }
+        // [실행] 버튼을 누르면 출력 값을 볼 수 있습니다.
+        // System.out.println("Hello Java");
+
         return answer;
     }
 }
