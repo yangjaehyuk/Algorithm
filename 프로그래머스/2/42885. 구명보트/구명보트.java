@@ -9,19 +9,16 @@ class Solution {
         Collections.sort(list);
         int left = 0;
         int right = list.size()-1;
-        while(true){
-            // 투포인터 쓰기
-            if(left>right) break;
+        while(left<=right){
+            int sum = list.get(right)+list.get(left);
+            if(sum <= limit){
+                answer++;
+                left++;
+                right--;
+            }
             else{
-                if(list.get(left)+list.get(right) <= limit){
-                    answer++;
-                    left++;
-                    right--;
-                }
-                else{
-                    right--;
-                    answer++;
-                }
+                answer++;
+                right--;
             }
         }
         return answer;
