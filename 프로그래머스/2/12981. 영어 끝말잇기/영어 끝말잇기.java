@@ -1,51 +1,46 @@
 import java.util.*;
 class Solution {
     public int[] solution(int n, String[] words) {
-        int person = 0;
-        int th = 0;
         int[] answer = new int[2];
-        List<String> list = new ArrayList<>();
-        for(int i=0;i<words.length;i++){
-            if(list.size() == 0) list.add(words[i]);
+        
+        Stack<String> stack = new Stack<>();
+        
+        for(String s: words){
+            if(stack.isEmpty()) stack.push(s);
             else{
-                if(list.contains(words[i])){
-                    int idx = i + 1;
-                    int div = idx / n;
-                    int mod = idx % n;
-                    if(mod == 0){
-                        person = n;
-                        th = div;
-                    }
-                    else{
-                        person = mod;
-                        th = div + 1;
-                    }
-                    break;
-                }
+                if(s.length()==1) stack.push(s);
                 else{
-                    String thisStr = list.get(i-1);
-                    String thisWord = words[i];
-                    if(thisStr.charAt(thisStr.length()-1) != thisWord.charAt(0)){
-                        System.out.println(thisStr+" "+thisWord);
-                        int idx = i + 1;
-                        int div = idx / n;
-                        int mod = idx % n;
-                        if(mod == 0){
-                            person = n;
-                            th = div;
-                        }
-                        else{
-                            person = mod;
-                            th = div + 1;
-                        }
-                        break;
+                    if(s.charAt(0) == stack.peek().charAt(stack.peek().length()-1) && stack.search(s) == -1 && stack.peek().length()>1) {
+                    stack.push(s);
                     }
-                    else list.add(words[i]);
+                    else if(stack.peek().length()>1) {
+                        // 당첨
+                        // 앞글자 다른경우
+                        if(s.charAt(0) != stack.peek().charAt(stack.peek().length()-1)){
+                            int len = stack.size();
+                            answer[0] = len%n+1;
+                            answer[1] = len/n+1;
+                            return answer;
+                        }
+                        // 스택에 있는 경우
+                        if(stack.search(s)!=-1){
+                            int len = stack.size();
+                            answer[0] = len%n+1;
+                            answer[1] = len/n+1;
+                            return answer;
+                        }
+
+                    }
                 }
+                
             }
         }
-        answer[0] = person;
-        answer[1] = th;
+        
+
+        // [실행] 버튼을 누르면 출력 값을 볼 수 있습니다. 
+        System.out.println("Hello Java");
+        answer[0] = 0;
+        answer[1] = 0;
         return answer;
     }
 }
