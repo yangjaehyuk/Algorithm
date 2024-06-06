@@ -1,44 +1,72 @@
 import java.util.*;
 class Solution {
+    static boolean check = true;
+    static StringBuilder sb = new StringBuilder();
     public int[] solution(String s) {
         int[] answer = {};
-        char[] arr = s.toCharArray();
-        List<List<Integer>> list = new ArrayList<>();
-        List<Integer> tmp = new ArrayList<>();
-        List<Integer> ans = new ArrayList<>();
-        StringBuilder sb = new StringBuilder();
-        for(char item: arr){
-            if(item == ','){
-                if(sb.length()>0){
-                    tmp.add(Integer.parseInt(sb.toString()));
-                }
-                sb.setLength(0);
+        List<Integer> ansL = new ArrayList<>();
+        List<String> list = new ArrayList<>();
+        s = s.substring(1, s.length()-1);
+        // System.out.println(s);
+        for(int i=0;i<s.length();i++){
+            if(s.charAt(i)=='{'){
+                check = false;
             }
-            else if(item=='{'){
-                continue;
-            }
-            else if(item=='}'){
-                if(sb.length()>0){
-                    tmp.add(Integer.parseInt(sb.toString()));
-                }
-                list.add(new ArrayList<>(tmp));
-                tmp.clear();
+            else if(s.charAt(i)=='}'){
+                list.add(sb.toString());
                 sb.setLength(0);
+                check = true;
             }
             else{
-                sb.append(item);
+                if(!check){
+                    sb.append(s.charAt(i));
+                }
             }
         }
-        
-        Collections.sort(list, (o1, o2) -> o1.size() - o2.size());
-        for(int i=1;i<list.size();i++){
-            for(Integer item: list.get(i)){
-                if(!ans.contains(item)) ans.add(item);
+        list.sort(new Comparator<>(){
+            @Override
+            public int compare(String s1, String s2){
+                return s1.length() - s2.length();
             }
+        });
+        answer = new int[list.size()];
+        // System.out.println(list.size());
+        for(String str: list){
+            // System.out.println(str.length()+" "+str);
+            String[] strA = str.split(" ");
+            // System.out.println(strA.length);
+            StringBuilder sb2 = new StringBuilder();
+            for(int j=0;j<strA.length;j++){
+                // System.out.println(strA[j]);
+                sb2.append(strA[j]);
+            }
+            String[] deepA = sb2.toString().split(",");
+            for(int j=0;j<deepA.length;j++){
+                boolean checking = true;
+                // System.out.println(deepA[j]);
+                int tmpV = Integer.parseInt(deepA[j]);
+                if(ansL.size()==0) ansL.add(tmpV);
+                else{
+                    for(int k=0;k<ansL.size();k++){
+                        if(ansL.get(k) == tmpV) {
+                            checking = false;
+                            break;
+                        }
+                    }
+                    if(checking){
+                        
+                        ansL.add(tmpV);
+                    }
+                }
+                
+            }
+            
         }
-        answer = new int[ans.size()];
+        for(Integer i: ansL){
+            System.out.println(i);
+        }
         for(int i=0;i<answer.length;i++){
-            answer[i] = ans.get(i);
+            answer[i] = ansL.get(i);
         }
         return answer;
     }
