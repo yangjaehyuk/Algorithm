@@ -1,40 +1,44 @@
 import java.util.*;
 class Solution {
     public int solution(int cacheSize, String[] cities) {
+        Deque<String> dq = new ArrayDeque<>();
+        // cache hit 5
+        // cache miss 1
         int answer = 0;
-        // cache hit:1, cache miss: 5
-        Deque<String> deque = new ArrayDeque<>();
-        if(cacheSize == 0){
-            answer += cities.length * 5;
+        String[] arr = new String[cities.length];
+        int idx = 0;
+        if(cacheSize==0){
+            return 5*cities.length;
         }
-        else{
-            for(String city: cities){
-                city = city.toLowerCase();
-                if(deque.size() < cacheSize){
-                    if(deque.contains(city)){
-                        deque.remove(city);
-                        deque.add(city);
-                        answer += 1;
-                        }
-                    else{
-                        deque.add(city);
-                        answer += 5;
-                        }
-                }
-                else if(deque.size() == cacheSize){
-                    if(deque.contains(city)){
-                        deque.remove(city);
-                        deque.add(city);
-                        answer += 1;
-                        }
-                    else{
-                        deque.remove();
-                        deque.add(city);
-                        answer += 5;
-                        }
-                    }
-                }
+        for(String city: cities){
+            String c = city.toUpperCase();
+            arr[idx++] = c;
         }
+        for(int i=0;i<arr.length;i++){
+            boolean check = true;
+            if(dq.size()<cacheSize){
+                if(dq.remove(arr[i])){
+                    dq.add(arr[i]);
+                    answer++;
+                }
+                else{
+                    dq.add(arr[i]);
+                    answer+=5;
+                }
+            }
+            else{
+                if(dq.remove(arr[i])){
+                    dq.add(arr[i]);
+                    answer++;
+                }
+                else{
+                    dq.remove();
+                    dq.add(arr[i]);
+                    answer+=5;
+                }
+            }
+        }
+        
         return answer;
     }
 }
