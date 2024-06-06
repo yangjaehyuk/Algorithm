@@ -2,53 +2,51 @@ import java.util.*;
 class Solution {
     public int[] solution(int[] progresses, int[] speeds) {
         int[] answer = {};
-        List<Integer> pro = new ArrayList<>();
-        List<Integer> speed = new ArrayList<>();
-        List<Integer> tmp = new ArrayList<>();
+        List<Integer> list = new ArrayList<>();
         List<Integer> ans = new ArrayList<>();
-        List<Integer> ansL = new ArrayList<>();
-        for(int item: progresses){
-            pro.add(item);
-        }
-        for(int item: speeds){
-            speed.add(item);
-        }
-        for(int i=0;i<pro.size();i++){
-            int start = pro.get(i);
-            int cnt = 0;
+        for(int i=0;i<progresses.length;i++){
+            int day = 0;
+            int progress = progresses[i];
+            int speed = speeds[i];
             while(true){
-                if(start >= 100) break;
+                if(progress>=100){
+                    break;
+                }
                 else{
-                    start += speeds[i];
-                    cnt++;
+                    progress += speed;
+                    day++;
                 }
             }
-            tmp.add(cnt);
+            list.add(day);
         }
-        int tmpV = 0;
-        for(Integer item: tmp){
-            if(item > tmpV){
-                tmpV = item;
-                ans.add(item);
+        int tmp = 0;
+        for(int i=0;i<list.size();i++){
+            if(tmp == 0){
+                tmp = list.get(i);
+                ans.add(tmp);
             }
             else{
-                ans.add(tmpV);
+                if(tmp < list.get(i)){
+                    tmp = list.get(i);
+                    ans.add(tmp);
+                }
+                else ans.add(tmp);
             }
         }
-        HashSet<Integer> hash = new HashSet<>(ans);
-        List<Integer> lis = new ArrayList<>(hash);
-        Collections.sort(lis);
+        Set<Integer> set = new HashSet<>(ans);
+        List<Integer> setL = new ArrayList<>(set);
+        Collections.sort(setL);
+        answer = new int[set.size()];
         int idx = 0;
-        for(Integer item: lis){
-            System.out.println(item);
-            ansL.add(Collections.frequency(ans, item));
-        }
-        // for(Integer item: ans){
-        //     System.out.println(item);
-        // }
-        answer = new int[ansL.size()];
-        for(int i=0;i<answer.length;i++){
-            answer[i]=ansL.get(i);
+        for(Integer it: setL){
+            int tm = 0;
+            for(Integer i: ans){
+                if(it==i){
+                    tm++;
+                }
+            }
+            answer[idx] = tm;
+            idx++;
         }
         return answer;
     }
