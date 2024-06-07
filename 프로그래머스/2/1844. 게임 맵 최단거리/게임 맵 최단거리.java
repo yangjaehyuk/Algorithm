@@ -1,43 +1,50 @@
 import java.util.*;
 class Solution {
-    static int[] dx = {0,0,1,-1};
-    static int[] dy = {1,-1,0,0};
-    static boolean[][] visited = new boolean[101][101];
+    static int[] dx = {1,-1,0,0};
+    static int[] dy = {0,0,1,-1};
     public int solution(int[][] maps) {
         int answer = 0;
-        Queue<Node> q = new LinkedList<>();
-        q.add(new Node(0,0));
-        visited[0][0] = true;
-        int n = maps.length;
-        int m = maps[0].length;
+        int[][] copied = new int[maps.length][maps[0].length];
+        for(int j=0;j<maps.length;j++){
+            for(int k=0;k<maps[j].length;k++){
+                copied[j][k] = 0;
+            }
+        }
+        boolean[][] visited = new boolean[maps.length][maps[0].length];
+        Queue<Pair> q = new LinkedList<>();
+        q.add(new Pair(0,0));
         while(!q.isEmpty()){
-            Node now = q.poll();
+            Pair p = q.poll();
+            int x = p.x;
+            int y = p.y;
+            visited[x][y] = true;
             for(int i=0;i<4;i++){
-                int nx = now.row + dx[i];
-                int ny = now.col + dy[i];
-                if(nx>=0 && nx<maps.length && ny>=0 && ny<maps[0].length && visited[nx][ny] == false && maps[nx][ny] == 1){
+                int nx = x+dx[i];
+                int ny = y+dy[i];
+                if(nx>=0 && ny>=0 && nx<maps.length && ny<maps[0].length && maps[nx][ny] == 1 && !visited[nx][ny]){
+                    copied[nx][ny] = copied[x][y] + 1;
                     visited[nx][ny] = true;
-                    maps[nx][ny] = maps[now.row][now.col]+1;
-                    q.add(new Node(nx, ny));
+                    q.add(new Pair(nx, ny));
                 }
             }
         }
-        // for(int i=0;i<maps.length;i++){
-        //     for(int j=0;j<maps[0].length;j++){
-        //         System.out.print(maps[i][j]+" ");
+        // for(int j=0;j<maps.length;j++){
+        //     for(int k=0;k<maps[j].length;k++){
+        //         System.out.print(copied[j][k]);
         //     }
         //     System.out.println();
         // }
-        if(visited[maps.length-1][maps[0].length-1] == false) answer = -1;
-        else answer = maps[maps.length-1][maps[0].length-1];
+        if(!visited[maps.length-1][maps[0].length-1]) answer = -1;
+        else answer = copied[maps.length-1][maps[0].length-1] + 1;
         return answer;
     }
-    class Node{
-        int row;
-        int col;
-        public Node(int row, int col){
-            this.row = row;
-            this.col = col;
+    
+    public static class Pair{
+        int x;
+        int y;
+        Pair(int x, int y){
+            this.x = x;
+            this.y = y;
         }
     }
 }
