@@ -1,79 +1,50 @@
 import java.util.*;
 class Solution {
     public int solution(String str1, String str2) {
+        List<String> list = new ArrayList<>();
+        List<String> list1 = new ArrayList<>();
+        List<String> list2 = new ArrayList<>();
+        List<String> Only1 = new ArrayList<>();
         int answer = 0;
-        int cri = 65536;
-        char[] arr1 = str1.toCharArray();
-        char[] arr2 = str2.toCharArray();
-        List<String> res1 = new ArrayList<>();
-        List<String> res2 = new ArrayList<>();
-        List<Character> list1 = new ArrayList<>();
-        List<Character> list2 = new ArrayList<>();
-        for(char item: arr1){
-            list1.add(item);
-        }
-        for(char item: arr2){
-            list2.add(item);
-        }
-        for(int i=0;i<list1.size()-1;i++){
-            boolean check = false;
-            String tmp = Character.toString(list1.get(i)) + Character.toString(list1.get(i+1));
-            tmp = tmp.toLowerCase();
-            for(int k=0;k<2;k++){
-                if(!Character.isAlphabetic(tmp.charAt(k))){
-                    check = true;
-                    break;
-                }
-            }
-            if(check == false) res1.add(tmp);
-        }
-        for(int j=0;j<list2.size()-1;j++){
-            boolean check = false;
-            String tmp = Character.toString(list2.get(j)) + Character.toString(list2.get(j+1));
-            tmp = tmp.toLowerCase();
-            for(int k=0;k<2;k++){
-                if(!Character.isAlphabetic(tmp.charAt(k))){
-                    check = true;
-                    break;
-                }
-            }
-            if(check == false) res2.add(tmp);
-        }
-        int len1 = res1.size();
-        int len2 = res2.size();
-        List<String> gyo = new ArrayList<>();
-        List<String> hap = new ArrayList<>();
-        if(len1 < len2){
-            for(String item: res1){
-                if(res2.remove(item)){
-                    gyo.add(item);
-                }
-                hap.add(item);
-            }
-            for(String item: res2){
-                hap.add(item);
+        str1 = str1.toUpperCase();
+        str2 = str2.toUpperCase();
+        for(int i=0;i<str1.length()-1;i++){
+            StringBuilder sb = new StringBuilder();
+            if('A'<=str1.charAt(i) && str1.charAt(i)<='Z' && 'A'<=str1.charAt(i+1) && str1.charAt(i+1)<='Z'){
+                sb.append(str1.charAt(i));
+                sb.append(str1.charAt(i+1));
+                list.add(sb.toString());
+                list1.add(sb.toString());
+                Only1.add(sb.toString());
+                
             }
         }
-        else{
-            for(String item: res2){
-                if(res1.remove(item)){
-                    gyo.add(item);
-                }
-                hap.add(item);
-            }
-            for(String item: res1){
-                hap.add(item);
+        for(int i=0;i<str2.length()-1;i++){
+            StringBuilder sb = new StringBuilder();
+            if('A'<=str2.charAt(i) && str2.charAt(i)<='Z' && 'A'<=str2.charAt(i+1) && str2.charAt(i+1)<='Z'){
+                sb.append(str2.charAt(i));
+                sb.append(str2.charAt(i+1));
+                list.add(sb.toString());
+                list2.add(sb.toString());
             }
         }
-        double hLen = hap.size();
-        double gLen = gyo.size();
-        if(hLen == 0){
-            return cri;
+        int gop = 0;
+        int hap = 0;
+        for(String s: list2){
+            Only1.remove(s);
         }
-        else{
-            double tmp = gLen / hLen;
-            answer = (int)(cri * tmp);
-            return answer;
-        }
+        // for(String s: Only1){
+        //     System.out.println(s);
+        // }
+        gop = list1.size() - Only1.size();
+        hap = list2.size() + Only1.size();
+        // System.out.println(gop+" "+hap);
+        double bunja = gop;
+        double bunmo = hap;
+        if(bunja==0.0 && bunmo == 0.0) return 65536;
+        double ans = bunja/bunmo;
+        answer = (int)(ans * 65536);
+        // System.out.println(bunja+" "+bunmo+" "+ans+" "+ans*65536);
+        return answer;
     }
 }
