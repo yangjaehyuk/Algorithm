@@ -1,6 +1,6 @@
 # [level 2] 가격이 제일 비싼 식품의 정보 출력하기 - 131115 
 
-[문제 링크](https://school.programmers.co.kr/learn/courses/30/lessons/131115?language=mysql) 
+[문제 링크](https://school.programmers.co.kr/learn/courses/30/lessons/131115) 
 
 ### 성능 요약
 
@@ -16,7 +16,7 @@ Empty
 
 ### 제출 일자
 
-2023년 10월 5일 20:49:57
+2024년 06월 28일 10:19:52
 
 ### 문제 설명
 
