@@ -1,24 +1,37 @@
-import java.util.*;
 class Solution
 {
-    public int cri = 0;
     public int solution(int [][]board)
     {
-        if(board.length<2 || board[0].length<2) return 1;
-        int[][] nBoard = new int[board.length+1][board[0].length+1];
-        for(int i=0;i<board.length;i++){
-            for(int j=0;j<board[0].length;j++){
-                nBoard[i+1][j+1] = board[i][j];
-            }
-        }
-        for(int i=1;i<nBoard.length;i++){
-            for(int j=1;j<nBoard[0].length;j++){
-                if(nBoard[i][j]==1){
-                    nBoard[i][j] = Math.min(Math.min(nBoard[i-1][j], nBoard[i-1][j-1]), nBoard[i][j-1]) + 1;
-                    if(cri<nBoard[i][j]) cri = nBoard[i][j];
+        int answer = 1;
+        int m = board.length;
+        int n = board[0].length;
+        int [][]nboard = new int[m+1][n+1];
+        boolean check = true;
+        for(int i=0;i<m;i++){
+            for(int j=0;j<n;j++){
+                if(board[i][j] == 1){
+                    check = false;
+                    break;
                 }
             }
         }
-        return cri * cri;
+        if(check){
+            return 0;
+        }
+        for(int i=0;i<m;i++){
+            for(int j=0;j<n;j++){
+                nboard[i][j] = board[i][j];
+            }
+        }
+        for(int i=1;i<m;i++){
+            for(int j=1;j<n;j++){
+                if(nboard[i][j] == 1){
+                    nboard[i][j] = Math.min(nboard[i-1][j-1], Math.min(nboard[i-1][j], nboard[i][j-1])) + 1;
+                }
+                answer = Math.max(answer, nboard[i][j]);
+            }
+        }
+
+        return answer * answer;
     }
 }
