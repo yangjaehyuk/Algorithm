@@ -1,48 +1,53 @@
 import java.util.*;
 class Solution {
-    public Queue<pair> q = new LinkedList<>();
-    public int n;
-    public int m;
-    public char[][] arr;
-    public int[][] score;
-    public int[] dx = {-1,1,0,0};
-    public int[] dy = {0,0,1,-1};
-    public int sx = 0;
-    public int sy = 0;
-    public int fx = 0;
-    public int fy = 0;
-    
+    static int[][] ans;
+    static int m;
+    static int n;
+    static int startx;
+    static int starty;
+    static int finalx;
+    static int finaly;
+    static char[][] arr;
+    static int[] dx = {1,0,-1,0};
+    static int[] dy = {0,1,0,-1};
     public int solution(String[] board) {
         int answer = 0;
-        n = board.length;
-        m = board[0].length();
-        arr = new char[n][m];
-        score = new int[n][m];
-        for(int i=0;i<n;i++){
-            for(int j=0;j<m;j++){
+        m = board.length;
+        n = board[0].length();
+        arr = new char[m][n];
+        ans = new int[m][n];
+        for(int i=0;i<m;i++){
+            for(int j=0;j<n;j++){
                 arr[i][j] = board[i].charAt(j);
-                score[i][j] = 0;
-                if(board[i].charAt(j) == 'R'){
-                    sx = i;
-                    sy = j;
+                ans[i][j] = 123456789;
+            }
+        }
+        
+        for(int i=0;i<m;i++){
+            for(int j=0;j<n;j++){
+                if(arr[i][j] == 'R'){
+                    startx = i;
+                    starty = j;
                 }
-                else if(board[i].charAt(j) == 'G'){
-                    fx = i;
-                    fy = j;
+                
+                else if(arr[i][j] == 'G'){
+                    finalx = i;
+                    finaly = j;
                 }
             }
         }
-        q.add(new pair(sx,sy));
-        score[sx][sy] = 1;
+        Queue<Pair> q = new LinkedList<>();
+        q.add(new Pair(startx, starty));
+        ans[startx][starty] = 0;
         while(!q.isEmpty()){
-            pair p = q.poll();
+            Pair p = q.poll();
             int x = p.x;
             int y = p.y;
             for(int i=0;i<4;i++){
                 int nx = x + dx[i];
                 int ny = y + dy[i];
                 while(true){
-                    if(nx >= 0 && ny >= 0 && nx < n && ny < m && arr[nx][ny] != 'D'){
+                    if(nx >= 0 && nx < m && ny >= 0 && ny < n && arr[nx][ny] != 'D'){
                         nx += dx[i];
                         ny += dy[i];
                     }
@@ -52,21 +57,27 @@ class Solution {
                         break;
                     }
                 }
-                if(score[nx][ny] == 0){
-                    score[nx][ny] = score[x][y] + 1;
-                    q.add(new pair(nx,ny));
+                if(ans[nx][ny] > ans[x][y] + 1){
+                    ans[nx][ny] = ans[x][y] + 1;
+                    q.add(new Pair(nx, ny));    
                 }
             }
+            
         }
-        
-        if(score[fx][fy] == 0) answer = -1;
-        else answer = score[fx][fy] - 1;
-        return answer;
+        // for(int i=0;i<m;i++){
+        //     for(int j=0;j<n;j++){
+        //         System.out.print(ans[i][j]+" ");
+        //     }
+        //     System.out.println();
+        // }
+        if(ans[finalx][finaly] == 123456789) return -1;
+        else return ans[finalx][finaly];
     }
-    public static class pair{
+    
+    public static class Pair{
         int x;
         int y;
-        pair(int x, int y){
+        Pair(int x, int y){
             this.x = x;
             this.y = y;
         }
