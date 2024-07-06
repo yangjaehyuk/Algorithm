@@ -1,33 +1,27 @@
 import java.util.*;
 class Solution {
     public int solution(int n, int k, int[] enemy) {
-        PriorityQueue<Integer> q = new PriorityQueue<>();
         int answer = 0;
-        if(k >= enemy.length){
-            answer = enemy.length;
-        }
+        int len = enemy.length;
+        PriorityQueue<Integer> pq = new PriorityQueue<>(Collections.reverseOrder());
+        if(k > len) return len;
         else{
-            answer += k;
-            for(int i=0;i<k;i++){
-                q.offer(enemy[i]);
-            }
-            for(int i=k;i<enemy.length;i++){
-                int num = q.peek();
-                int comp = enemy[i];
-                if(comp > num){
-                    n -= num;
-                    if(n < 0) return answer;
-                    q.poll();
-                    q.offer(comp);
-                    answer ++;
-                }
+            for(int i=0;i<len;i++){
+                pq.add(enemy[i]);
+                n -= enemy[i];
+                
+                if(n >= 0) answer++;
                 else{
-                    n -= comp;
-                    if(n < 0) return answer;
-                    answer++;
+                    if(k > 0){
+                        n += pq.poll();
+                        k--;
+                        answer++;
+                    }
+                    else break;
                 }
             }
         }
+        
         return answer;
     }
 }
