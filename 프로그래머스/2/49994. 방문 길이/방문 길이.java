@@ -1,60 +1,87 @@
 import java.util.*;
 class Solution {
-    public static int[] dirx = {1,-1,0,0};
-    public static int[] diry = {0,0,1,-1};
+    // 배열에 x, y랑 nx, ny 넣기
+    static int[] dx = {1, 0, -1, 0};
+    static int[] dy = {0, 1, 0, -1};
     public int solution(String dirs) {
-        boolean[][][][] visited = new boolean[11][11][11][11];
         int answer = 0;
-        int x = 5;
-        int y = 5;
-        char[] arr = dirs.toCharArray();
-        for(char str: arr){
-            boolean check = false;
-            if(str=='U'){
-                int dx = x + dirx[2];
-                int dy = y + diry[2];
-                if(dx>=0 && dx<11 && dy>=0 && dy<11){
-                    answer+=visited[y][x][dy][dx]?0:1;
-                    visited[y][x][dy][dx] = true;
-                    visited[dy][dx][y][x] = true;
-                    x = dx;
-                    y = dy;
+        Set<Pair> tmp = new HashSet<>();
+        int x = 0;
+        int y = 0;
+        for(int i=0;i<dirs.length();i++){
+            if(dirs.charAt(i) == 'U'){
+                int nx = x + dx[0];
+                int ny = y + dy[0];
+                if(nx >= -5 && nx <= 5 && ny >= -5 && ny <= 5){
+                    if(!tmp.contains(new Pair(x,y,nx,ny)) && !tmp.contains(new Pair(nx, ny, x, y))){
+                        tmp.add(new Pair(x,y,nx,ny));
+                        answer++;
+                    }
+                    x = nx;
+                    y = ny;
                 }
             }
-            else if(str=='L'){
-                int dx = x + dirx[1];
-                int dy = y + diry[1];
-                if(dx>=0 && dx<11 && dy>=0 && dy<11){
-                    answer+=visited[y][x][dy][dx]?0:1;
-                    visited[y][x][dy][dx] = true;
-                    visited[dy][dx][y][x] = true;
-                    x = dx;
-                    y = dy;
+            else if(dirs.charAt(i) == 'D'){
+                int nx = x + dx[2];
+                int ny = y + dy[2];
+                if(nx >= -5 && nx <= 5 && ny >= -5 && ny <= 5){
+                    if(!tmp.contains(new Pair(x,y,nx,ny)) && !tmp.contains(new Pair(nx, ny, x, y))){
+                        tmp.add(new Pair(x,y,nx,ny));
+                        answer++;
+                    }
+                    x = nx;
+                    y = ny;
                 }
             }
-            else if(str=='D'){
-                int dx = x + dirx[3];
-                int dy = y + diry[3];
-                if(dx>=0 && dx<11 && dy>=0 && dy<11){
-                    answer+=visited[y][x][dy][dx]?0:1;
-                    visited[y][x][dy][dx] = true;
-                    visited[dy][dx][y][x] = true;
-                    x = dx;
-                    y = dy;
+            else if(dirs.charAt(i) == 'R'){
+                int nx = x + dx[1];
+                int ny = y + dy[1];
+                if(nx >= -5 && nx <= 5 && ny >= -5 && ny <= 5){
+                    if(!tmp.contains(new Pair(x,y,nx,ny)) && !tmp.contains(new Pair(nx, ny, x, y))){
+                        tmp.add(new Pair(x,y,nx,ny));
+                        answer++;
+                    }
+                    x = nx;
+                    y = ny;
                 }
             }
-            else{
-                int dx = x + dirx[0];
-                int dy = y + diry[0];
-                if(dx>=0 && dx<11 && dy>=0 && dy<11){
-                    answer+=visited[y][x][dy][dx]?0:1;
-                    visited[y][x][dy][dx] = true;
-                    visited[dy][dx][y][x] = true;
-                    x = dx;
-                    y = dy;
+            else if(dirs.charAt(i) == 'L'){
+                int nx = x + dx[3];
+                int ny = y + dy[3];
+                if(nx >= -5 && nx <= 5 && ny >= -5 && ny <= 5){
+                    if(!tmp.contains(new Pair(x,y,nx,ny)) && !tmp.contains(new Pair(nx, ny, x, y))){
+                        tmp.add(new Pair(x,y,nx,ny));
+                        answer++;
+                    }
+                    x = nx;
+                    y = ny;
                 }
             }
         }
         return answer;
+    }
+    
+    public static class Pair{
+        int x;
+        int y;
+        int nx;
+        int ny;
+        Pair(int x, int y, int nx, int ny){
+            this.x = x;
+            this.y = y;
+            this.nx = nx;
+            this.ny = ny;
+        }
+        
+        @Override
+        public boolean equals(Object o){
+            Pair pair = (Pair) o;
+            return x == pair.x && y == pair.y && nx == pair.nx && ny == pair.ny;
+        }
+        
+        @Override
+        public int hashCode(){
+            return Objects.hash(x,y,nx,ny);
+        }
     }
 }
