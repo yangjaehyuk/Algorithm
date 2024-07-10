@@ -1,94 +1,100 @@
 import java.util.*;
 class Solution {
-    public static boolean[][] visited;
-    public static int[] dx = {-1,0,1,0};
-    public static int[] dy = {0,1,0,-1};
-    public static int mapX;
-    public static int mapY;
-    public static char[][] arr;
-    public static int[][] road;
-    public boolean lcheck = false;
-    public boolean echeck = false;
-    public void bfs(int x, int y, char goal){
-        Queue<pair> q = new LinkedList<>();
-        q.add(new pair(x,y));
-        while(!q.isEmpty()){
-            pair p = q.poll();
-            int nowx = p.x;
-            int nowy = p.y;
-            for(int i=0;i<4;i++){
-                int nx = nowx + dx[i];
-                int ny = nowy + dy[i];
-                if(nx >=0 && nx < mapX && ny >= 0 && ny < mapY){
-                    if(!visited[nx][ny] && arr[nx][ny] == goal){
-                        road[nx][ny] = road[nowx][nowy] + 1;
-                        visited[nx][ny] = true;
-                        if(goal == 'L') lcheck = true;
-                        else echeck = true;
-                        return;
-                    }
-                    else if(!visited[nx][ny] && arr[nx][ny] != 'X'){
-                        road[nx][ny] = road[nowx][nowy] + 1;
-                        visited[nx][ny] = true;
-                        q.add(new pair(nx, ny));
-                    }
-                }
-            }
-        }
-    }
+    static int startx;
+    static int starty;
+    static int leverx;
+    static int levery;
+    static int endx;
+    static int endy;
+    static int[] dx = {1, 0, -1, 0};
+    static int[] dy = {0, 1, 0, -1};
+    static char[][] map;
+    static int[][] load;
     public int solution(String[] maps) {
         int answer = 0;
-        visited = new boolean[maps.length][maps[0].length()];
-        mapX = maps.length;
-        mapY = maps[0].length();
-        arr = new char[mapX][mapY];
-        road = new int[mapX][mapY];
-        int sx = 0;
-        int sy = 0;
-        int lx = 0;
-        int ly = 0;
-        int fx = 0;
-        int fy = 0;
+        boolean check1 = true;
+        boolean check2 = true;
+        map = new char[maps.length][maps[0].length()];
+        load = new int[maps.length][maps[0].length()];
         for(int i=0;i<maps.length;i++){
             for(int j=0;j<maps[i].length();j++){
-                arr[i][j] = maps[i].charAt(j);
-                road[i][j] = 0;
-                if(maps[i].charAt(j) == 'S'){
-                    sx = i;
-                    sy = j;
+                map[i][j] = maps[i].charAt(j);
+                if(map[i][j] == 'S'){
+                    startx = i;
+                    starty = j;
                 }
-                if(maps[i].charAt(j) == 'L'){
-                    lx = i;
-                    ly = j;
+                else if(map[i][j] == 'L'){
+                    leverx = i;
+                    levery = j;
                 }
-                if(maps[i].charAt(j) == 'E'){
-                    fx = i;
-                    fy = j;
+                else if(map[i][j] == 'E'){
+                    endx = i;
+                    endy = j;
                 }
             }
         }
-        visited[sx][sy] = true;
-        // 시작점 -> 레버
-        bfs(sx, sy, 'L');
-        if(lcheck){
-            for(int k=0;k<mapX;k++){
-                for(int l=0;l<mapY;l++){
-                    visited[k][l] = false;
-                }
-            }
-            bfs(lx, ly, 'E');
-            if(echeck){
-                answer = road[fx][fy];
-            }
-            else return -1;
+        bfs1(startx, starty);
+        if(load[leverx][levery] == 0){
+            answer = -1;
         }
-        else return -1;
+        else{
+            bfs2(leverx, levery);
+            if(load[endx][endy] == 0) answer = -1;
+            else answer = load[endx][endy];
+        }
         return answer;
     }
-    public static class pair{
+    
+    public static void bfs1(int startx, int starty){
+        Queue<Pair> q = new LinkedList<>();
+        q.add(new Pair(startx, starty));
+        boolean[][] visited = new boolean[map.length][map[0].length];
+        while(!q.isEmpty()){
+            Pair p = q.poll();
+            int x = p.x;
+            int y = p.y;
+            visited[x][y] = true;
+            if(x == leverx && y == levery) return;
+            for(int i=0;i<4;i++){
+                int nx = x + dx[i];
+                int ny = y + dy[i];
+                if(nx >= 0 && nx < map.length && ny >= 0 && ny < map[0].length && map[nx][ny] != 'X' && !visited[nx][ny]){
+                    visited[nx][ny] = true;
+                    q.add(new Pair(nx, ny));
+                    load[nx][ny] = load[x][y] + 1;
+                    
+                }
+            }
+        }
+    }
+    
+    public static void bfs2(int startx, int starty){
+        Queue<Pair> q = new LinkedList<>();
+        q.add(new Pair(startx, starty));
+        boolean[][] visited = new boolean[map.length][map[0].length];
+        while(!q.isEmpty()){
+            Pair p = q.poll();
+            int x = p.x;
+            int y = p.y;
+            visited[x][y] = true;
+            if(x == endx && y == endy) return;
+            for(int i=0;i<4;i++){
+                int nx = x + dx[i];
+                int ny = y + dy[i];
+                if(nx >= 0 && nx < map.length && ny >= 0 && ny < map[0].length && map[nx][ny] != 'X' && !visited[nx][ny]){
+                    visited[nx][ny] = true;
+                    q.add(new Pair(nx, ny));
+                    load[nx][ny] = load[x][y] + 1;
+                    
+                }
+            }
+        }
+    }
+    
+    public static class Pair{
         int x;
         int y;
-        pair(int x, int y){
+        Pair(int x, int y){
             this.x = x;
             this.y = y;
         }
