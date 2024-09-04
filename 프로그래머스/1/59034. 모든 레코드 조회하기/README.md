@@ -1,6 +1,6 @@
 # [level 1] 모든 레코드 조회하기 - 59034 
 
-[문제 링크](https://school.programmers.co.kr/learn/courses/30/lessons/59034) 
+[문제 링크](https://school.programmers.co.kr/learn/courses/30/lessons/59034?language=oracle) 
 
 ### 성능 요약
 
@@ -16,7 +16,7 @@ Empty
 
 ### 제출 일자
 
-2024년 07월 01일 17:36:35
+2024년 09월 05일 00:48:27
 
 ### 문제 설명
 
