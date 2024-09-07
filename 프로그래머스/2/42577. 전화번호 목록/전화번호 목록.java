@@ -1,22 +1,17 @@
 import java.util.*;
 class Solution {
     public boolean solution(String[] phone_book) {
-        boolean answer = false;
-        List<String> phones = new ArrayList<>();
+        boolean answer = true;
+        List<String> list = new ArrayList<String>();
         for(String s: phone_book){
-            phones.add(s);
+            list.add(s);
         }
-        Collections.sort(phones);
-        String tmp = "A";
-        for(int i=0;i<phones.size();i++){
-            if(phones.get(i).startsWith(tmp) == false){
-                tmp = phones.get(i);
-                answer = true;
-            }
-            else{
-                answer = false;
-                break;
-            }
+        Collections.sort(list);
+        String cri = list.get(0);
+        for(int i=1;i<list.size();i++){
+            // System.out.println(list.get(i));
+            if(list.get(i).startsWith(cri)) return false;
+            cri = list.get(i);
         }
         return answer;
     }
