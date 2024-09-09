@@ -2,36 +2,30 @@ import java.util.*;
 class Solution {
     public int solution(String skill, String[] skill_trees) {
         int answer = 0;
-        for(String s: skill_trees){
-            List<Integer> list = new ArrayList<>();
-            for(int i=0;i<s.length();i++){
-                if(skill.indexOf(s.charAt(i)) != -1) list.add(skill.indexOf(s.charAt(i)));
+        for(int i=0;i<skill_trees.length;i++){
+            String skillSet = skill_trees[i];
+            List<Integer> idx = new ArrayList<>();
+            List<Character> list = new ArrayList<>();
+            boolean flag = true;
+            for(int j=0;j<skill.length();j++){
+                if(skillSet.indexOf(skill.charAt(j)) != -1) idx.add(skillSet.indexOf(skill.charAt(j)));
             }
-            System.out.println(list.size());
-            
-            if(list.size() == 0){
+            Collections.sort(idx);
+            for(Integer it: idx){
+                list.add(skillSet.charAt(it));
+            }
+            StringBuilder sb = new StringBuilder();
+            for(Character c: list){
+                sb.append(c);
+            }
+            String tmp = sb.toString();
+            System.out.println(tmp);
+            if(skill.startsWith(tmp)){
                 answer++;
             }
-            else if(list.size() == 1){
-                for(Integer it: list){
-                    if(it == 0) answer++;
-                }
-            }
-            else{
-                boolean check = true;
-                if(list.get(0) != 0) check = false;
-                else{
-                    for(int j=0;j<list.size()-1;j++){
-                        if(list.get(j)+1 != list.get(j+1)){
-                            check = false;
-                            break;
-                        }
-                    }
-                }
-                
-                if(check) answer++;
-            }
+                   
         }
+        
         return answer;
     }
 }
