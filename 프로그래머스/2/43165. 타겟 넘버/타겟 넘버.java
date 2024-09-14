@@ -1,38 +1,29 @@
+import java.util.*;
 class Solution {
-    static char[] arr = {'-','+'};
-    static int[] path;
-    static boolean[] visited;
-    static int ans = 0;
+    static char[] path;
+    static char[] cal = {'-', '+'};
+    static int answer = 0;
     public int solution(int[] numbers, int target) {
-        int answer = 0;
-        path = new int[numbers.length];
-        visited = new boolean[numbers.length];
-        dfs(0, numbers.length, target, numbers);
-        answer = ans;
+        path = new char[numbers.length];
+        dfs(0, numbers, target);
         return answer;
     }
     
-    public static void dfs(int lev, int level, int target, int[] numbers){
+    public static void dfs(int lev, int[] numbers, int target){
+        int level = numbers.length;
         if(lev == level){
-            // System.out.println(lev);
-            int tmp = 0;
+            int sum = 0;
             for(int i=0;i<lev;i++){
-                // System.out.print((char)path[i]+" "+numbers[i]);
-                if((char)path[i] == '-'){
-                    tmp -= numbers[i];
-                }
-                else{
-                    tmp += numbers[i];
-                }
+                if(path[i]=='-') sum -= numbers[i];
+                else sum += numbers[i];
             }
-            // System.out.println(tmp);
-            if(tmp == target) ans++; 
+            if(sum == target) answer++;
             return;
         }
-        for(int i=0;i<arr.length;i++){
-                // System.out.println(path[lev]);
-                path[lev] = arr[i];
-                dfs(lev+1, level, target, numbers);
-            }
+        
+        for(int i=0;i<cal.length;i++){
+            path[lev] = cal[i];
+            dfs(lev+1, numbers, target);
         }
+    }
 }
