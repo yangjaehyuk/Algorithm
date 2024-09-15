@@ -4,19 +4,18 @@ class Solution {
         boolean answer = true;
         Stack<Character> stack = new Stack<>();
         for(int i=0;i<s.length();i++){
-            stack.add(s.charAt(i));
-            if(stack.size()>1){
-                if(stack.peek()==')' && stack.get(stack.size()-2)=='('){
-                    stack.pop();
+            if(stack.isEmpty()){
+                stack.push(s.charAt(i));
+            }
+            else{
+                if(stack.peek() == '(' && s.charAt(i)==')'){
                     stack.pop();
                 }
+                else stack.push(s.charAt(i));
             }
         }
-        
-        // [실행] 버튼을 누르면 출력 값을 볼 수 있습니다.
-        if(stack.size()==0) answer=true;
-        else answer=false;
-
+        // System.out.println(stack.size());
+        if(!stack.isEmpty()) answer = false;
         return answer;
     }
 }
