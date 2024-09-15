@@ -2,15 +2,15 @@ import java.util.*;
 class Solution {
     public String solution(String s) {
         String answer = "";
-        List<Integer> list = new ArrayList<>();
         String[] arr = s.split(" ");
+        List<Integer> ans = new ArrayList<>();
         for(int i=0;i<arr.length;i++){
-           list.add(Integer.parseInt(arr[i]));
+            ans.add(Integer.parseInt(arr[i]));
         }
-        Collections.sort(list);
-        answer+=list.get(0);
-        answer+=" ";
-        answer+=list.get(list.size()-1);
+        Collections.sort(ans);
+        answer+=ans.get(0);
+        answer+=' ';
+        answer+=ans.get(ans.size() - 1);
         return answer;
     }
 }
