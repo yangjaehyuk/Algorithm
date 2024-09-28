@@ -1,29 +1,25 @@
 import java.util.*;
 class Solution {
     public String solution(String s) {
-        StringBuilder answer = new StringBuilder();
-        s = s.toLowerCase();
-        boolean check = true;
-        for(int i=0;i<s.length();i++){
-            if(s.charAt(i) == ' '){
-                answer.append(' ');
-                check = false;
+        String lowerS = s.toLowerCase();
+        String answer = "";
+        Stack<Character> stack = new Stack();
+        for(int j=0;j<s.length();j++){
+            if(lowerS.charAt(j) != ' '){
+                if(stack.isEmpty()){
+                    stack.add(Character.toUpperCase(lowerS.charAt(j)));
+                    answer+=stack.peek();
+                }
+                else answer+=lowerS.charAt(j);
             }
             else{
-                if(i==0 && !Character.isDigit(s.charAt(0))) {
-                    answer.append((char)(s.charAt(i)-32));
-                    continue;
+                while(true){
+                    if(stack.isEmpty()) break;
+                    stack.pop();
                 }
-                if(!check){
-                    if(Character.isDigit(s.charAt(i))) answer.append(s.charAt(i));
-                    else answer.append((char)(s.charAt(i)-32));
-                    check = true;
-                }
-                else{
-                    answer.append(s.charAt(i));
-                }
+                answer+=' ';
             }
         }
-        return answer.toString();
+        return answer;
     }
 }
