@@ -3,21 +3,20 @@ class Solution
 {
     public int solution(int []A, int []B)
     {
-        int answer = 0;
-        Arrays.sort(A);
-        int[] NA = new int[A.length];
-        int idx=0;
-        for(int i=A.length-1;i>=0;i--){
-            NA[idx] = A[i];
-            idx++;
-        }
-        Arrays.sort(B);
+        List<Integer> list1 = new ArrayList<>();
+        List<Integer> list2 = new ArrayList<>();
         for(int i=0;i<A.length;i++){
-            answer+=NA[i]*B[i];
+            list1.add(A[i]);
         }
-        // [실행] 버튼을 누르면 출력 값을 볼 수 있습니다.
-        System.out.println("Hello Java");
-
+        for(int j=0;j<B.length;j++){
+            list2.add(B[j]);
+        }
+        Collections.sort(list1);
+        Collections.sort(list2, Collections.reverseOrder());
+        int answer = 0;
+        for(int i=0;i<list1.size();i++){
+            answer += list1.get(i) * list2.get(i);
+        }
         return answer;
     }
 }
