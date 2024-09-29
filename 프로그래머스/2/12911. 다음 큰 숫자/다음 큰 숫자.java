@@ -2,23 +2,22 @@ import java.util.*;
 class Solution {
     public int solution(int n) {
         int answer = 0;
-        String binaryN = Integer.toBinaryString(n);
-        int Ncnt = 0;
-        for(int i=0;i<binaryN.length();i++){
-            if(binaryN.charAt(i)=='1') Ncnt ++;
+        String criteria = Integer.toBinaryString(n);
+        int cnt = 0;
+        for(int i=0;i<criteria.length();i++){
+            if(criteria.charAt(i) == '1') cnt++;
         }
         while(true){
-            n++;
-            String tmpBinary = Integer.toBinaryString(n);
-            int tmpCnt = 0;
-            for(int j=0;j<tmpBinary.length();j++){
-                if(tmpBinary.charAt(j)=='1') tmpCnt++;
+            n += 1;
+            int cnt2 = 0;
+            String cri = Integer.toBinaryString(n);
+            for(int j=0;j<cri.length();j++){
+                if(cri.charAt(j) == '1') cnt2++;
             }
-            if(Ncnt == tmpCnt){
+            if(cnt == cnt2) {
                 answer = n;
                 break;
             }
-            
         }
         return answer;
     }
