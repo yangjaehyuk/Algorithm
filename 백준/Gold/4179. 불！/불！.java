@@ -1,41 +1,35 @@
-
-
 import java.io.BufferedReader;
 import java.io.InputStreamReader;
-import java.util.LinkedList;
-import java.util.Queue;
+import java.util.*;
 
-public class Main{
-	public static int[] dx = {1,0,-1,0};
-	public static int[] dy = {0,1,0,-1};
-	public static int w;
-	public static int h;
-	public static boolean[][] visited;
-	public static char[][] arr;
-	public static void main(String[] args) throws Exception{
-		BufferedReader br = new BufferedReader(new InputStreamReader(System.in));
-		String[] temp = br.readLine().split(" ");
-		h = Integer.parseInt(temp[0]);
-		w = Integer.parseInt(temp[1]);
-		arr = new char[h][w];
-		visited = new boolean[h][w];
-		for(int i=0;i<h;i++) {
+public class Main {
+    public static int w;
+    public static int h;
+    public static int[] dx = {1, -1, 0, 0};
+    public static int[] dy = {0, 0, 1, -1};
+    public static char[][] arr;
+    public static boolean[][] visited;
+    public static void main(String[] args) throws Exception {
+        BufferedReader br = new BufferedReader(new InputStreamReader(System.in));
+        String[] tmp = br.readLine().split(" ");
+        h = Integer.parseInt(tmp[0]);
+        w = Integer.parseInt(tmp[1]);
+        arr = new char[h][w];
+        visited = new boolean[h][w];
+       
+         for(int i=0;i<h;i++) {
 			String docs = br.readLine();
 			for(int j=0;j<w;j++) {
 				arr[i][j] = docs.charAt(j);
 			}
 		}
-		
-		int cnt = bfs();
-		if(cnt==-1) {
-			System.out.println("IMPOSSIBLE");
-		}
-		else System.out.println(cnt+1);
-	}
-	
-	
-	
-	public static int bfs() {
+        int res = bfs();
+        if(res == -1) System.out.println("IMPOSSIBLE");
+        else System.out.println(res + 1);
+        
+    }
+    
+   public static int bfs() {
 		Queue<Pair> personQ = new LinkedList<Pair>();
 		Queue<Pair> fireQ = new LinkedList<Pair>();
 		for(int i=0;i<h;i++) {
@@ -52,6 +46,7 @@ public class Main{
 		}
 		while(!personQ.isEmpty()) {
 			int fireSize = fireQ.size();
+			int personSize = personQ.size();
 			for(int j=0;j<fireSize;j++) {
 				Pair pair = fireQ.poll();
 				int fx = pair.x;
@@ -66,7 +61,7 @@ public class Main{
 					}
 				}
 			}
-			for(int k=0;k<personQ.size();k++) {
+			for(int k=0;k<personSize;k++) {
 				Pair p = personQ.poll();
 				int px = p.x;
 				int py = p.y;
@@ -87,15 +82,18 @@ public class Main{
 		return -1;
 		
 	}
-	
-	public static class Pair{
-		int x;
-		int y;
-		int cnt;
-		Pair(int x, int y, int cnt){
-			this.x= x;
-			this.y = y;
-			this.cnt = cnt;
-		}
-	}
+    
+    
+    public static class Pair{
+        int x;
+        int y;
+        int cnt;
+        
+        Pair(int x, int y, int cnt){
+            this.x = x;
+            this.y = y;
+            this.cnt = cnt;
+        }
+    }
+    
 }
