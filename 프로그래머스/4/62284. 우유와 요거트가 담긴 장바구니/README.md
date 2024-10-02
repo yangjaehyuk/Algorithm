@@ -1,6 +1,6 @@
 # [level 4] 우유와 요거트가 담긴 장바구니 - 62284 
 
-[문제 링크](https://school.programmers.co.kr/learn/courses/30/lessons/62284?language=oracle) 
+[문제 링크](https://school.programmers.co.kr/learn/courses/30/lessons/62284) 
 
 ### 성능 요약
 
@@ -16,7 +16,7 @@ Empty
 
 ### 제출 일자
 
-2024년 07월 08일 10:41:22
+2024년 10월 02일 15:31:08
 
 ### 문제 설명
 
