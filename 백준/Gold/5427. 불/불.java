@@ -64,9 +64,10 @@ public class Main {
                 for (int m = 0; m < 4; m++) {
                     int nfiresero = fire.x + dx[m];
                     int nfiregaro = fire.y + dy[m];
-                    if (nfiresero >= 0 && nfiregaro >= 0 && nfiresero < h && nfiregaro < w && arr[nfiresero][nfiregaro] == '.') {
+                    if (nfiresero >= 0 && nfiregaro >= 0 && nfiresero < h && nfiregaro < w && arr[nfiresero][nfiregaro] == '.' && !visited[nfiresero][nfiregaro]) {
                         arr[nfiresero][nfiregaro] = '*';
                         fireQueue.add(new Pair(nfiresero, nfiregaro, 0));
+                        visited[nfiresero][nfiregaro] = true;
                     }
                 }
             }
