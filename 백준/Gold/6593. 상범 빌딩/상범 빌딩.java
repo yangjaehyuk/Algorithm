@@ -1,107 +1,88 @@
-
 import java.io.BufferedReader;
 import java.io.InputStreamReader;
-import java.util.LinkedList;
-import java.util.Queue;
+import java.util.*;
 
 public class Main {
-	public static int[] dx = {1,0,-1,0,0,0};
-	public static int[] dy = {0,1,0,-1,0,0};
-	public static int[] dz = {0,0,0,0,1,-1};
-	public static int l = 0;
-	public static int r = 0;
-	public static int c = 0;
-	public static void main(String[] args) throws Exception{
-		BufferedReader br = new BufferedReader(new InputStreamReader(System.in));
-		while(true) {
-			String[] temp = br.readLine().split(" ");
-			char[][][] arr;
-			boolean[][][] visited;
-			
-			l = Integer.parseInt(temp[0]);
-			r = Integer.parseInt(temp[1]);
-			c = Integer.parseInt(temp[2]);
-			
-			if(l==0 && r==0 && c==0) break;
-			arr = new char[l][r][c];
-			visited = new boolean[l][r][c];
-			for(int i=0;i<l;i++) {
-				for(int j=0;j<r;j++) {
-					String tmp = br.readLine();
-					for(int k=0;k<c;k++) {
-						arr[i][j][k] = tmp.charAt(k);
-//						System.out.println(tmp.charAt(k));
-					}
-				}
+    public static int w;
+    public static int h;
+    public static int[] dx = {1, 0, -1, 0, 0, 0};
+    public static int[] dy = {0, 1, 0, -1, 0, 0};
+    public static int[] dh = {0, 0, 0, 0, 1, -1};
+    public static char[][][] arr;
+    public static boolean[][][] visited;
+    public static void main(String[] args) throws Exception {
+        BufferedReader br = new BufferedReader(new InputStreamReader(System.in));
+        while(true){
+            String[] docs = br.readLine().split(" ");
+            int m = Integer.parseInt(docs[0]);
+            int n = Integer.parseInt(docs[1]);
+            int l = Integer.parseInt(docs[2]);
+            if(m == 0 && n == 0 && l == 0) break;
+            arr = new char[m][n][l];
+            int[][][] map = new int[m][n][l];
+            visited = new boolean[m][n][l];
+            int startx = 0;
+            int starty = 0;
+            int starth = 0;
+            int endx = 0;
+            int endy = 0;
+            int endh = 0;
+            for(int i=0;i<m;i++){
+                for(int j=0;j<n;j++){
+                    String tmp = br.readLine();
+                    for(int k=0;k<tmp.length();k++){
+                        arr[i][j][k] = tmp.charAt(k);
+                        if(arr[i][j][k] == 'S'){
+                            startx = j;
+                            starth = i;
+                            starty = k;
+                            map[i][j][k] = 1;
+                        }
+                        else if(arr[i][j][k] == 'E'){
+                            endx = j;
+                            endh = i;
+                            endy = k;
+                        }
+                    }
+                }
 				br.readLine();
-			}
-			
-			int cnt = bfs(arr, visited);
-			if(cnt==-1) {
-				System.out.println("Trapped!");
-			}
-			else {
-				System.out.println("Escaped in "+cnt+" minute(s).");
-			}
-		}
-		
-	}
-	
-	public static class Pair{
-		int z;
-		int x;
-		int y;
-		int cnt;
-		Pair(int z, int x, int y, int cnt){
-			this.z = z;
-			this.x = x;
-			this.y = y;
-			this.cnt = cnt;
-		}
-	}
-	
-	public static int bfs(char[][][] arr, boolean[][][] visited) {
-		Queue<Pair> q = new LinkedList<Pair>();
-		int finalx = 0;
-		int finaly = 0;
-		int finalz = 0;
-		for(int i=0;i<l;i++) {
-			for(int j=0;j<r;j++) {
-				for(int k=0;k<c;k++) {
-					if(arr[i][j][k] == 'S') {
-						q.add(new Pair(i,j,k,0));
-						visited[i][j][k] = true;
-					}
-					else if(arr[i][j][k]=='E') {
-						finalz = i;
-						finalx = j;
-						finaly = k;
-					}
-				}
-			}
-		}
-		
-		while(!q.isEmpty()) {
-			Pair p = q.poll();
-			int nopi = p.z;
-			int sero = p.x;
-			int garo = p.y;
-//			System.out.println(nopi+" "+sero+" "+garo);
-			if(nopi==finalz && sero==finalx && garo==finaly) {
-				return p.cnt;
-			}
-			
-			for(int i=0;i<6;i++) {
-				int nnopi = nopi+dz[i];
-				int nsero = sero+dx[i];
-				int ngaro = garo+dy[i];
-				
-				if(nnopi>=0 && nsero>=0 && ngaro>=0 && nnopi<l && nsero<r && ngaro<c && !visited[nnopi][nsero][ngaro] && (arr[nnopi][nsero][ngaro]=='.' || arr[nnopi][nsero][ngaro] == 'E')) {
-					visited[nnopi][nsero][ngaro] = true;
-					q.add(new Pair(nnopi, nsero, ngaro, p.cnt+1));
-				}
-			}
-		}
-		return -1;
-	}
+            }
+            Queue<Pair> q = new LinkedList<>();
+            q.add(new Pair(startx, starty, starth));
+            visited[starth][startx][starty] = true;
+            while(!q.isEmpty()){
+                Pair p = q.poll();
+                int x = p.x;
+                int y = p.y;
+                int h = p.h;
+                
+                for(int i=0;i<6;i++){
+                    int nx = x + dx[i];
+                    int ny = y + dy[i];
+                    int nh = h + dh[i];
+                    
+                    if(nx >= 0 && ny >= 0 && nh >= 0 && nx < n && ny < l && nh < m && !visited[nh][nx][ny] && arr[nh][nx][ny] != '#'){
+                        q.add(new Pair(nx, ny, nh));
+                        visited[nh][nx][ny] = true;
+                        map[nh][nx][ny] = map[h][x][y] + 1;
+                    }
+                }
+            }
+            
+            if(!visited[endh][endx][endy]) System.out.println("Trapped!");
+            else System.out.println("Escaped in "+(map[endh][endx][endy] - 1)+" minute(s).");
+        }
+        
+    }
+    
+    public static class Pair{
+        int x;
+        int y;
+        int h;
+        Pair(int x, int y, int h){
+            this.x = x;
+            this.y = y;
+            this.h = h;
+        }
+    }
 }
