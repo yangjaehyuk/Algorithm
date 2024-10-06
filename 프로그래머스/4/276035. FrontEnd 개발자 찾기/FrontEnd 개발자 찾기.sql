@@ -1,17 +1,5 @@
-SELECT
- d.id
-,d.email
-,d.first_name
-,d.last_name
-FROM 
- SKILLCODES s
-JOIN
- DEVELOPERS d
-ON
- s.code & d.skill_code = s.code
-WHERE
- s.category = 'Front End'
-GROUP BY
- d.id, d.email, d.first_name, d.last_name
-ORDER BY
- 1
+-- 코드를 작성해주세요
+SELECT A.ID, A.EMAIL, A.FIRST_NAME, A.LAST_NAME
+FROM DEVELOPERS A
+WHERE A.SKILL_CODE & (SELECT SUM(CODE) FROM SKILLCODES WHERE CATEGORY = 'Front End')
+ORDER BY A.ID
