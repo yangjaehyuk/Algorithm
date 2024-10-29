@@ -2,15 +2,18 @@ import java.util.*;
 class Solution {
     public int solution(int n) {
         int answer = 0;
-        int divn = n/2 + 1;
-        for(int i=1;i<divn;i++){
-            int sum = i;
-            for(int j=i+1;j<=divn;j++){
-                sum += j;
-                if(sum == n) answer++;
-                else if(sum > n) break;
+        for(int i=1;i<=n/2;i++){
+            int tmp = 0;
+            for(int j=i;j<n;j++){
+                tmp += j;
+                if(tmp > n) break;
+                else if(tmp == n){
+                    answer++;
+                    break;
+                }
             }
         }
-        return answer + 1;
+        answer++;
+        return answer;
     }
 }
