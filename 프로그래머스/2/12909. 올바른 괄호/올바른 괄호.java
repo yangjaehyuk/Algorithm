@@ -4,18 +4,18 @@ class Solution {
         boolean answer = true;
         Stack<Character> stack = new Stack<>();
         for(int i=0;i<s.length();i++){
-            if(stack.isEmpty()){
-                stack.push(s.charAt(i));
-            }
+            if(stack.isEmpty()) stack.add(s.charAt(i));
             else{
-                if(stack.peek() == '(' && s.charAt(i)==')'){
+                if(stack.peek() == '(' && s.charAt(i) == ')'){
                     stack.pop();
                 }
-                else stack.push(s.charAt(i));
+                else stack.add(s.charAt(i));
             }
         }
-        // System.out.println(stack.size());
-        if(!stack.isEmpty()) answer = false;
+        
+        if(stack.isEmpty()) answer = true;
+        else answer = false;
+
         return answer;
     }
 }
