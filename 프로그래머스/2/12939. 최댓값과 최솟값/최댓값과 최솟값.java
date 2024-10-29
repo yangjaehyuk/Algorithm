@@ -2,15 +2,23 @@ import java.util.*;
 class Solution {
     public String solution(String s) {
         String answer = "";
-        String[] arr = s.split(" ");
-        List<Integer> ans = new ArrayList<>();
-        for(int i=0;i<arr.length;i++){
-            ans.add(Integer.parseInt(arr[i]));
+        StringBuilder sb = new StringBuilder();
+        List<Integer> list = new ArrayList<>();
+        String[] ans = s.split("\\s");
+        // for(int i=0;i<ans.length;i++){
+        //     System.out.println(ans[i]);
+        // }
+        for(int i=0;i<ans.length;i++){
+            list.add(Integer.parseInt(ans[i]));
         }
-        Collections.sort(ans);
-        answer+=ans.get(0);
-        answer+=' ';
-        answer+=ans.get(ans.size() - 1);
+        // for(Integer i: list){
+        //     System.out.println(i);
+        // }
+        Collections.sort(list);
+        sb.append(list.get(0));
+        sb.append(" ");
+        sb.append(list.get(list.size()-1));
+        answer = sb.toString();
         return answer;
     }
 }
