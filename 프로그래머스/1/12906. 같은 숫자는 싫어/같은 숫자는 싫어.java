@@ -2,8 +2,8 @@ import java.util.*;
 
 public class Solution {
     public int[] solution(int []arr) {
-        Stack<Integer> stack = new Stack();
-        List<Integer> list = new ArrayList<>();
+        int[] answer = {};
+        Stack<Integer> stack = new Stack<>();
         for(int i=0;i<arr.length;i++){
             if(stack.isEmpty()){
                 stack.add(arr[i]);
@@ -13,12 +13,11 @@ public class Solution {
                 else stack.add(arr[i]);
             }
         }
-        for(Integer i: stack){
-            list.add(i);
-        }
-        int[] answer = new int[list.size()];
-        for(int i=0;i<list.size();i++){
-            answer[i] = list.get(i);
+        answer = new int[stack.size()];
+        int idx = stack.size() - 1;
+        while(!stack.isEmpty()){
+            answer[idx] = stack.pop();
+            idx--;
         }
         return answer;
     }
