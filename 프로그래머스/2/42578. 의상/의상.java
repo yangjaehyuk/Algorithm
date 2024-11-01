@@ -4,27 +4,27 @@ class Solution {
         int answer = 0;
         Map<String, Integer> map = new HashMap<>();
         for(int i=0;i<clothes.length;i++){
-            if(!map.containsKey(clothes[i][1])){
-                map.put(clothes[i][1], 1);
-            }
-            else{
+            if(map.containsKey(clothes[i][1])){
                 int val = map.get(clothes[i][1]) + 1;
                 map.put(clothes[i][1], val);
             }
+            else map.put(clothes[i][1], 1);
         }
-        // System.out.println(map.size());
         if(map.size() == 1){
-            // System.out.println(map.keySet());
             for(String key: map.keySet()){
-                answer += map.get(key);
+                answer = map.get(key);
             }
-            return answer;
         }
-        int tmp = 1;
-        for(String key: map.keySet()){
-            tmp *= map.get(key) + 1;
+        else{
+            int tmp = 0;
+            int res = 1;
+            for(String key: map.keySet()){
+                tmp += map.get(key) + 1;
+                res *= tmp;
+                tmp = 0;
+            }
+            answer = res - 1;
         }
-        answer = tmp - 1;
         return answer;
     }
 }
