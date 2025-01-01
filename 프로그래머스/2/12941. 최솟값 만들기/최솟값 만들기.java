@@ -4,22 +4,11 @@ class Solution
     public int solution(int []A, int []B)
     {
         int answer = 0;
-        List<Integer> lista = new ArrayList<>();
-        List<Integer> listb = new ArrayList<>();
+        Arrays.sort(A);
+        Arrays.sort(B);
         for(int i=0;i<A.length;i++){
-            lista.add(A[i]);
+            answer += A[i] * B[A.length-i-1];
         }
-        for(int i=0;i<B.length;i++){
-            listb.add(B[i]);
-        }
-        
-        Collections.sort(lista);
-        Collections.sort(listb, Collections.reverseOrder());
-        
-        for(int i=0;i<A.length;i++){
-            answer += lista.get(i) * listb.get(i);
-        }
-
         return answer;
     }
 }
