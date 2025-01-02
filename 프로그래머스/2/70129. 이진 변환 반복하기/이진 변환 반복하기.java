@@ -1,41 +1,28 @@
 import java.util.*;
 class Solution {
-    
-    static int cnt = 0;
-    static int zeroCnt = 0;
     public int[] solution(String s) {
-        int[] answer = new int[2];
-        StringBuilder sb = new StringBuilder();
-        for(int i=0;i<s.length();i++){
-            sb.append(s.charAt(i));
-        }
+        int[] answer = {};
+        answer = new int[2];
+        int zerocnt = 0;
+        int cnt = 0;
         while(true){
-            List<Integer> list = new ArrayList<>();
-            if(sb.toString().equals("1")) break;
-            for(int j=0;j<sb.toString().length();j++){
-                if(sb.toString().charAt(j) == '0'){
-                    zeroCnt++;
-                    list.add(j);
+            int tmp = 0;
+            int len = 0;
+            if(s.equals("1")) break;
+            else{
+                for(int i=0;i<s.length();i++){
+                    if(s.charAt(i) == '0') tmp++;
                 }
+                zerocnt += tmp;
+                // 길이 0 개수 만큼 줄이고
+                len = s.length() - tmp;
+                // 이진 변환을 s로
+                s = Integer.toBinaryString(len);
+                cnt++;
             }
-            for(int j=0;j<list.size();j++){
-                if(j==0) sb.deleteCharAt(list.get(j));
-                else sb.deleteCharAt(list.get(j)-j);
-            }
-            // System.out.println(zeroCnt);
-            // 0제거후 길이를 2진법으로
-            int size = sb.toString().length();
-            sb.setLength(0);
-            String tmp = Integer.toBinaryString(size);
-            // System.out.println(tmp);
-            for(int j=0;j<tmp.length();j++){
-                sb.append(tmp.charAt(j));
-            }
-            cnt++;
-            
         }
         answer[0] = cnt;
-        answer[1] = zeroCnt;
+        answer[1] = zerocnt;
         return answer;
     }
 }
