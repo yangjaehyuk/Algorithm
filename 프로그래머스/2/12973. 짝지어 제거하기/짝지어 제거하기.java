@@ -3,21 +3,19 @@ class Solution
 {
     public int solution(String s)
     {
-        
-        int answer = 0;
+        int answer = -1;
         Stack<Character> stack = new Stack<>();
         for(int i=0;i<s.length();i++){
             if(stack.isEmpty()){
                 stack.add(s.charAt(i));
             }
             else{
-                if(stack.peek() == s.charAt(i)){
-                    stack.pop();
-                }
+                if(stack.peek() == s.charAt(i)) stack.pop();
                 else stack.add(s.charAt(i));
             }
         }
         if(stack.isEmpty()) answer = 1;
+        else answer = 0;
         return answer;
     }
 }
