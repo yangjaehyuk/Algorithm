@@ -1,46 +1,48 @@
 import java.util.*;
 class Solution {
     public int[] solution(int n, String[] words) {
-        int[] answer = new int[2];
-        
+        int[] answer = {};
+        answer = new int[2];
+        int idx = 1;
+        boolean flag = true;
         Stack<String> stack = new Stack<>();
-        
-        for(String s: words){
-            if(stack.isEmpty()) stack.push(s);
+        for(int i=0;i<words.length;i++){
+            if(stack.isEmpty()) {
+                stack.add(words[i]);
+                idx++;
+            }
             else{
-                if(s.length()==1) stack.push(s);
-                else{
-                    if(s.charAt(0) == stack.peek().charAt(stack.peek().length()-1) && stack.search(s) == -1 && stack.peek().length()>1) {
-                    stack.push(s);
+                String now = stack.peek();
+                char last = now.charAt(now.length() - 1);
+                if(last == words[i].charAt(0)){
+                    if(stack.contains(words[i])) {
+                        flag = false;
+                        break;
                     }
-                    else if(stack.peek().length()>1) {
-                        // 당첨
-                        // 앞글자 다른경우
-                        if(s.charAt(0) != stack.peek().charAt(stack.peek().length()-1)){
-                            int len = stack.size();
-                            answer[0] = len%n+1;
-                            answer[1] = len/n+1;
-                            return answer;
-                        }
-                        // 스택에 있는 경우
-                        if(stack.search(s)!=-1){
-                            int len = stack.size();
-                            answer[0] = len%n+1;
-                            answer[1] = len/n+1;
-                            return answer;
-                        }
-
+                    else{
+                        stack.add(words[i]);
+                        idx++;
                     }
                 }
-                
+                else{
+                    flag = false;
+                    break;
+                }
             }
         }
-        
-
-        // [실행] 버튼을 누르면 출력 값을 볼 수 있습니다. 
-        System.out.println("Hello Java");
-        answer[0] = 0;
-        answer[1] = 0;
+        if(flag) return answer;
+        else{
+            // 순서
+            if(idx % n == 0) answer[0] = n;
+            else answer[0] = idx % n;
+            // 몇 번째
+            if(idx % n == 0){
+                answer[1] = idx / n;
+            }
+            else{
+                answer[1] = idx / n + 1;
+            }
+        }
         return answer;
     }
 }
