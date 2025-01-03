@@ -1,29 +1,22 @@
+import java.util.*;
 class Solution {
     public int solution(int[] arr) {
         int answer = 0;
-        int res = 0;
-        for(int i=1;i<arr.length;i++){
-            if(i==1) res = lcm(arr[i-1], arr[i]);
-            else{
-                res = lcm(res, arr[i]);
-                System.out.println(res);
+        if(arr.length == 1) answer = arr[0];
+        else{
+            answer = arr[0];
+            for(int i=1;i<arr.length;i++){
+                int gcd = gcd(arr[i], answer);
+                arr[i] /= gcd;
+                answer *= arr[i];
             }
         }
-        answer = res;
         return answer;
     }
     
-    public static int gcd(int a, int b){
-        int r = 0;
-        while(b!=0){
-            r = a % b;
-            a = b;
-            b = r;
-        }
-        return a;
+    public int gcd(int a, int b){
+        if(a % b == 0) return b;
+        return gcd(b, a % b);
     }
     
-    public static int lcm(int a,int b){
-        return (a*b) / gcd(a,b);
-    }
 }
