@@ -8,17 +8,19 @@ class Solution {
         }
         Collections.sort(list);
         int left = 0;
-        int right = list.size()-1;
-        while(left<=right){
-            int sum = list.get(right)+list.get(left);
-            if(sum <= limit){
-                answer++;
-                left++;
-                right--;
-            }
+        int right = people.length - 1;
+        while(true){
+            if(left > right) break;
             else{
-                answer++;
-                right--;
+                if(list.get(left) + list.get(right) > limit){
+                    right--;
+                    answer++;
+                }
+                else{
+                    left++;
+                    right--;
+                    answer++;
+                }
             }
         }
         return answer;
