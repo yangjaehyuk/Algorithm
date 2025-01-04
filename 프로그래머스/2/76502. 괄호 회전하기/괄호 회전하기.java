@@ -4,21 +4,14 @@ class Solution {
         int answer = 0;
         for(int i=0;i<s.length();i++){
             Stack<Character> stack = new Stack<>();
-            for(int j=0;j<s.length();j++){
-                if(stack.isEmpty()){
-                    stack.add(s.charAt((i+j)%s.length()));
-                }
+            for(int j=i;j<s.length()+i;j++){
+                if(stack.isEmpty()) stack.add(s.charAt(j % s.length()));
                 else{
-                    if((stack.peek()=='[' && s.charAt((i+j)%s.length()) == ']') || (stack.peek()=='{' && s.charAt((i+j)%s.length())=='}') || (stack.peek()=='(' && s.charAt((i+j)%s.length())==')')){
-                        stack.pop();
-                        continue;
-                    }
-                    else stack.add(s.charAt((i+j)%s.length()));
+                    if(stack.peek() == '[' && s.charAt(j % s.length()) == ']' || stack.peek() == '(' && s.charAt(j % s.length()) == ')' || stack.peek() == '{' && s.charAt(j % s.length()) == '}') stack.pop();
+                    else stack.add(s.charAt(j % s.length()));
                 }
             }
-            // System.out.println(stack.isEmpty());
             if(stack.isEmpty()) answer++;
-            
         }
         return answer;
     }
