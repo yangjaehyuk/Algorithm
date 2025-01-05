@@ -1,13 +1,20 @@
+import java.util.*;
 class Solution {
     public int[] solution(int n, long left, long right) {
         int[] answer = {};
-        int idx = 0;
-        answer = new int[(int)(right-left+1)];
+        List<Long> list = new ArrayList<>();
         for(long i=left;i<=right;i++){
-            int row = (int)(i/n);
-            int col = (int)(i%n);
-            answer[idx++] = Math.max(row, col)+1;
+            long row = i / n;
+            long col = i % n;
+            if(row >= col) list.add(row+1L);
+            else{
+                list.add(row+1L+(col-row));
+            }
+        }
+        answer = new int[list.size()];
+        for(int i=0;i<list.size();i++){
+            answer[i] = list.get(i).intValue();
         }
         return answer;
     }
-} 
+}
