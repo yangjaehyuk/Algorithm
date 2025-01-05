@@ -1,44 +1,43 @@
 import java.util.*;
 class Solution {
     public int solution(int cacheSize, String[] cities) {
-        Deque<String> dq = new ArrayDeque<>();
-        // cache hit 5
-        // cache miss 1
         int answer = 0;
-        String[] arr = new String[cities.length];
-        int idx = 0;
-        if(cacheSize==0){
-            return 5*cities.length;
+        List<String> list = new ArrayList<>();
+        for(int i=0;i<cities.length;i++){
+            list.add(cities[i].toUpperCase());
         }
-        for(String city: cities){
-            String c = city.toUpperCase();
-            arr[idx++] = c;
-        }
-        for(int i=0;i<arr.length;i++){
-            boolean check = true;
-            if(dq.size()<cacheSize){
-                if(dq.remove(arr[i])){
-                    dq.add(arr[i]);
-                    answer++;
+        List<String> dq = new ArrayList<>();
+        if(cacheSize == 0) return cities.length * 5;
+        for(int i=0;i<cities.length;i++){
+            if(dq.size() < cacheSize){
+                if(dq.indexOf(list.get(i)) < 0){
+                    dq.add(list.get(i));
+                    answer += 5;
                 }
                 else{
-                    dq.add(arr[i]);
-                    answer+=5;
+                    int index = dq.indexOf(list.get(i));
+                    dq.remove(index);
+                    dq.add(list.get(i));
+                    answer++;
                 }
             }
             else{
-                if(dq.remove(arr[i])){
-                    dq.add(arr[i]);
-                    answer++;
+                // miss
+                if(dq.indexOf(list.get(i)) < 0){
+                    dq.remove(0);
+                    dq.add(list.get(i));
+                    answer += 5;
                 }
+                // hit
                 else{
-                    dq.remove();
-                    dq.add(arr[i]);
-                    answer+=5;
+                    int index = dq.indexOf(list.get(i));
+                    System.out.println(index);
+                    dq.remove(index);
+                    dq.add(list.get(i));
+                    answer++;
                 }
             }
         }
-        
         return answer;
     }
 }
