@@ -2,41 +2,44 @@ import java.util.*;
 class Solution {
     public int[] solution(int[] progresses, int[] speeds) {
         int[] answer = {};
-        Stack<Integer> stack = new Stack<>();
-        for(int i=0;i<progresses.length;i++){
-            int temp = (100 - progresses[i]) / speeds[i];
-            if((100 - progresses[i]) % speeds[i] != 0) temp++;
-            if(stack.isEmpty()) stack.add(temp);
-            else{
-                if(stack.peek() >= temp){
-                    int pe = stack.peek();
-                    stack.add(pe);
-                }
-                else stack.add(temp);
-            }
-        }
+        answer = new int[progresses.length];
+        int maxi = 0;
         List<Integer> list = new ArrayList<>();
-        while(!stack.isEmpty()){
-            list.add(stack.pop());
+        for(int i=0;i<progresses.length;i++){
+            int tmp = (100 - progresses[i]) % speeds[i];
+            if(tmp == 0){
+                int days = (100 - progresses[i]) / speeds[i];
+                if(days >= maxi){
+                    maxi = days;
+                    list.add(days);
+                }
+                else{
+                    list.add(maxi);
+                }
+            }
+            else{
+                int days = (100 - progresses[i]) / speeds[i] + 1;
+                if(days >= maxi){
+                    maxi = days;
+                    list.add(days);
+                }
+                else{
+                    list.add(maxi);
+                }
+            }
+            
         }
-        Collections.sort(list);
+        int[] arr = new int[101];
+        for(int i=0;i<list.size();i++){
+            arr[list.get(i)]++;
+        }
         List<Integer> ans = new ArrayList<>();
-        int num = 1;
-        for(int i=0;i<list.size()-1;i++){
-            if(list.get(i) != list.get(i+1)){
-                ans.add(num);
-                num = 1;
-            }
-            else {
-                num++;
-            }
+        for(int i=0;i<101;i++){
+            if(arr[i] > 0) ans.add(arr[i]);
         }
-        ans.add(num);
         answer = new int[ans.size()];
-        int idx = 0;
-        for(Integer i:ans){
-            answer[idx] = i;
-            idx++;
+        for(int i=0;i<ans.size();i++){
+            answer[i] = ans.get(i);
         }
         return answer;
     }
