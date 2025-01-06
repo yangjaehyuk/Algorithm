@@ -1,72 +1,35 @@
 import java.util.*;
 class Solution {
-    static boolean check = true;
-    static StringBuilder sb = new StringBuilder();
     public int[] solution(String s) {
         int[] answer = {};
-        List<Integer> ansL = new ArrayList<>();
-        List<String> list = new ArrayList<>();
-        s = s.substring(1, s.length()-1);
-        // System.out.println(s);
-        for(int i=0;i<s.length();i++){
-            if(s.charAt(i)=='{'){
-                check = false;
+        List<List<Integer>> list = new ArrayList<>();
+        s = s.substring(2, s.length() - 2);
+        String[] sets = s.split("},\\{");
+        for (String set : sets) {
+            List<Integer> resultSet = new ArrayList<>();
+            String[] numbers = set.split(",");
+            for (String num : numbers) {
+                resultSet.add(Integer.parseInt(num));
             }
-            else if(s.charAt(i)=='}'){
-                list.add(sb.toString());
-                sb.setLength(0);
-                check = true;
-            }
-            else{
-                if(!check){
-                    sb.append(s.charAt(i));
-                }
-            }
+            list.add(resultSet);
         }
-        list.sort(new Comparator<>(){
+        Collections.sort(list, new Comparator<List<Integer>>() {
             @Override
-            public int compare(String s1, String s2){
-                return s1.length() - s2.length();
+            public int compare(List<Integer> a, List<Integer> b){
+                return a.size() - b.size();
             }
         });
         answer = new int[list.size()];
-        // System.out.println(list.size());
-        for(String str: list){
-            // System.out.println(str.length()+" "+str);
-            String[] strA = str.split(" ");
-            // System.out.println(strA.length);
-            StringBuilder sb2 = new StringBuilder();
-            for(int j=0;j<strA.length;j++){
-                // System.out.println(strA[j]);
-                sb2.append(strA[j]);
+        Set<Integer> ansSet = new LinkedHashSet<>(); 
+        for(int i=0; i<list.size(); i++){
+            for(int j=0; j<list.get(i).size(); j++){
+                ansSet.add(list.get(i).get(j)); 
             }
-            String[] deepA = sb2.toString().split(",");
-            for(int j=0;j<deepA.length;j++){
-                boolean checking = true;
-                // System.out.println(deepA[j]);
-                int tmpV = Integer.parseInt(deepA[j]);
-                if(ansL.size()==0) ansL.add(tmpV);
-                else{
-                    for(int k=0;k<ansL.size();k++){
-                        if(ansL.get(k) == tmpV) {
-                            checking = false;
-                            break;
-                        }
-                    }
-                    if(checking){
-                        
-                        ansL.add(tmpV);
-                    }
-                }
-                
-            }
-            
         }
-        for(Integer i: ansL){
-            System.out.println(i);
-        }
-        for(int i=0;i<answer.length;i++){
-            answer[i] = ansL.get(i);
+        answer = new int[ansSet.size()];
+        int index = 0;
+        for(Integer num : ansSet){
+            answer[index++] = num;
         }
         return answer;
     }
