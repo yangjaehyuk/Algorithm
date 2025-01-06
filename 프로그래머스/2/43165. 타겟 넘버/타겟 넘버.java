@@ -1,32 +1,30 @@
 import java.util.*;
 class Solution {
-    static char[] arr = {'-', '+'};
     static char[] path;
-    static int answer;
+    static boolean[] visited;
+    static char[] arr = {'+', '-'};
+    static int answer = 0;
     public int solution(int[] numbers, int target) {
         path = new char[numbers.length];
-        dfs(0, numbers.length, numbers, target);
+        visited = new boolean[numbers.length];
+        dfs(0, numbers.length, target, numbers);
         return answer;
     }
-    
-    public static void dfs(int lev, int level, int[] numbers, int target){
+    public static void dfs(int lev, int level, int target, int[] numbers){
         if(lev == level){
             int sum = 0;
             for(int i=0;i<lev;i++){
-                if(path[i] == '-'){
-                    sum -= numbers[i];
+                if(path[i]=='+'){
+                    sum+=numbers[i];
                 }
-                else{
-                    sum += numbers[i];
-                }
+                else sum-=numbers[i];
             }
-            if(sum == target) answer++;
+            if(target == sum) answer++;
             return;
         }
-        
         for(int i=0;i<2;i++){
             path[lev] = arr[i];
-            dfs(lev+1, level, numbers, target);
+            dfs(lev+1, level, target, numbers);
         }
     }
 }
