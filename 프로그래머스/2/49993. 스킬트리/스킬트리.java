@@ -3,29 +3,22 @@ class Solution {
     public int solution(String skill, String[] skill_trees) {
         int answer = 0;
         for(int i=0;i<skill_trees.length;i++){
-            String skillSet = skill_trees[i];
-            List<Integer> idx = new ArrayList<>();
             List<Character> list = new ArrayList<>();
             boolean flag = true;
-            for(int j=0;j<skill.length();j++){
-                if(skillSet.indexOf(skill.charAt(j)) != -1) idx.add(skillSet.indexOf(skill.charAt(j)));
+            for(int j=0;j<skill_trees[i].length();j++){
+                if (skill.indexOf(skill_trees[i].charAt(j)) != -1) {
+                    list.add(skill_trees[i].charAt(j));
+                }
             }
-            Collections.sort(idx);
-            for(Integer it: idx){
-                list.add(skillSet.charAt(it));
+            
+            for(int j=0;j<list.size();j++){
+                if(list.get(j) != skill.charAt(j)){
+                    flag = false;
+                    break;
+                }
             }
-            StringBuilder sb = new StringBuilder();
-            for(Character c: list){
-                sb.append(c);
-            }
-            String tmp = sb.toString();
-            System.out.println(tmp);
-            if(skill.startsWith(tmp)){
-                answer++;
-            }
-                   
+            if(flag) answer++;
         }
-        
         return answer;
     }
 }
