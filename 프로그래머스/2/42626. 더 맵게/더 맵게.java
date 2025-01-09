@@ -1,22 +1,25 @@
 import java.util.*;
 class Solution {
-    // 섞은 음식의 스코빌 지수 = 가장 맵지 않은 음식의 스코빌 지수 + (두 번째로 맵지 않은 음식의 스코빌 지수 * 2)
     public int solution(int[] scoville, int K) {
         int answer = 0;
         PriorityQueue<Integer> pq = new PriorityQueue<>();
-        for(int i: scoville) pq.add(i);
-        while(true){
-            if(pq.size() == 1) break;
-            if(pq.peek() >= K) break;
-            else{
-                answer++;
-                int now = pq.poll();
-                int sub = pq.poll();
-                pq.add(now + sub * 2);
-            }
+        for(int i=0;i<scoville.length;i++){
+            pq.add(scoville[i]);
         }
-        int now = pq.poll();
-        if(now >= K) return answer;
+        boolean flag = false;
+        while(true){
+            if(pq.peek() >= K) {
+                flag = true;
+                break;
+            }
+            if(pq.size() < 2) break;
+            int first = pq.poll();
+            int second = pq.poll();
+            int newScoville = first + (2 * second);
+            pq.add(newScoville);
+            answer++;
+        }
+        if(flag) return answer;
         else return -1;
     }
 }
