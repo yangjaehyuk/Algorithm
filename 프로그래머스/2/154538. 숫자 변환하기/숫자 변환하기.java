@@ -1,38 +1,42 @@
 import java.util.*;
 class Solution {
+    static boolean[] visited;
     public int solution(int x, int y, int n) {
         int answer = 0;
-        int[] arr = new int[y+1];
-        boolean[] visited = new boolean[y+1];
-        Queue<Integer> q = new LinkedList<>();
-        int check = 0;
-        q.add(x);
+        visited = new boolean[1000001];
+        // bfs
+        Queue<Pair> q = new LinkedList<>();
+        q.add(new Pair(x, 0));
         while(!q.isEmpty()){
-            int front = q.poll();
-            for(int i=0;i<3;i++){
-                if(i==0){
-                    int change = front+n;
-                    if(change>y || visited[change] == true){
-                        continue;
-                    }
-                    visited[change] = true;
-                    arr[change] = arr[front] + 1;
-                    q.add(change);
-                }
-                else{
-                    int change = front*(i+1);
-                    if(change>y || visited[change] == true){
-                        continue;
-                    }
-                    visited[change] = true;
-                    arr[change] = arr[front] + 1;
-                    q.add(change);
-                }
+            Pair p = q.poll();
+            int tmp = p.x;
+            int cnt = p.cnt;
+            if(tmp == y){
+                answer = cnt;
+                return answer;
+            }
+            if(tmp + n <= y && !visited[tmp + n]){
+                q.add(new Pair(tmp + n, cnt + 1));
+                visited[tmp + n] = true;
+            }
+            if(tmp * 2 <= y && !visited[tmp * 2]){
+                q.add(new Pair(tmp * 2, cnt + 1));
+                visited[tmp * 2] = true;
+            }
+            if(tmp * 3 <= y && !visited[tmp * 3]){
+                q.add(new Pair(tmp * 3, cnt + 1));
+                visited[tmp * 3] = true;
             }
         }
-        if(x==y) return 0;
-        if(arr[y] == 0) answer = -1;
-        else answer = arr[y];
-        return answer;
+        return -1;
+    }
+    
+    public static class Pair{
+        int x;
+        int cnt;
+        Pair(int x, int cnt){
+            this.x = x;
+            this.cnt = cnt;
+        }
     }
 }
