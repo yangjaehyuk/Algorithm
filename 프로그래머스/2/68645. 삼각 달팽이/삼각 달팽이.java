@@ -1,77 +1,47 @@
 import java.util.*;
 class Solution {
     public int[] solution(int n) {
-        List<Integer> ans = new ArrayList<>();
         int[] answer = {};
-        int[][] map = new int[n + 1][n + 1];
-        int start = 1;
+        int[][] arr = new int[n][n];
+        int tmp = 1;
+        int cri = 0;
         for(int i=0;i<n;i++){
-            for(int j=0;j<=i;j++){
-                if(j == 0){
-                    map[i][j] = start++;
-                }
-                else if(i == n - 1){
-                    map[i][j] = start++;
+            // 아래로
+            for(int j=cri;j<n;j++){
+                if (arr[j][cri] == 0) {
+                    arr[j][cri] = tmp++;
                 }
             }
+            for (int j=cri+1;j<n-cri;j++) {
+                if (arr[n-cri-1][j] == 0) {
+                    arr[n-cri-1][j] = tmp++;
+                }
+            }
+
+            // 대각선(-1, -1) 이동
+            for (int j=n-cri-2;j>cri;j--) {
+                if (arr[j][j-cri]==0) {
+                    arr[j][j-cri]=tmp++;
+                }
+            }
+            cri++;
         }
-        int x = n - 1;
-        int y = n - 1;
-        if(n == 3){
-            answer = new int[6];
-            int[] tmp = {1,2,6,3,4,5};
-            for(int i=0;i<6;i++){
-                answer[i] = tmp[i];
-            }
-            return answer;
-        }
-        while(true){
-            boolean check = true;
-            for(int i=0;i<n;i++){
-                for(int j=0;j<=i;j++){
-                    if(map[i][j] == 0){
-                        check = false;
-                        break;
-                    }
-                }
-            }
-            if(check) break;
-            while(true){
-                x--;
-                y--;
-                if(map[x][y] != 0){
-                    x++;
-                    y++;
-                    break;
-                }
-                map[x][y] = start++;
-            }
-            while(true){
-                x++;
-                if(map[x][y] != 0){
-                    x--;
-                    break;
-                }
-                map[x][y] = start++;
-            }
-            while(true){
-                y++;
-                if(map[x][y] != 0){
-                    y--;
-                    break;
-                }
-                map[x][y] = start++;
-            }
-        }
+        
+        List<Integer> list = new ArrayList<>();
         for(int i=0;i<n;i++){
-            for(int j=0;j<=i;j++){
-                ans.add(map[i][j]);
+            for(int j=0;j<n;j++){
+                // System.out.print(arr[i][j]+" ");
+                if(arr[i][j] > 0) list.add(arr[i][j]);
             }
+            // System.out.println();
         }
-        answer = new int[ans.size()];
-        for(int i=0;i<answer.length;i++){
-            answer[i] = ans.get(i);
+        
+        answer = new int[list.size()];
+        for(int i=0;i<list.size();i++){
+            answer[i] = list.get(i);
         }
+        
+        
         return answer;
     }
 }
