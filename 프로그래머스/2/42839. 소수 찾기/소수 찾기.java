@@ -1,53 +1,62 @@
 import java.util.*;
 class Solution {
+    static char[] path;
+    static boolean[] visit;
+    static Set<Integer> set = new HashSet<>();
     public int solution(String numbers) {
         int answer = 0;
-        List<Integer> list = new ArrayList<>();
         for(int i=1;i<=numbers.length();i++){
-            int[] path = new int[numbers.length()];
-            boolean[] visited = new boolean[numbers.length()];
-            dfs(numbers, 0, i, path, visited, list);
+            path = new char[i];
+            visit = new boolean[numbers.length()];
+            dfs(0, i, numbers);
         }
-        HashSet<Integer> hash = new HashSet<>(list);
-        List<Integer> ans = new ArrayList<>(hash);
-        for(Integer item: ans){
-            boolean[] prime = new boolean[item+1];
-            for(int i=0;i<item+1;i++) prime[i] = true;
-            if(item == 1 || item == 0){
-                continue;
-            }
+        for(Integer inte: set){
+            if(inte == 0 || inte == 1) continue;
             else{
-                for(int i=2;i<=Math.sqrt(item);i++){
-                    if(prime[i] == true){
-                        for(int j=i*i;j<=item;j+=i){
-                            prime[j] = false;
-                        }
-                    }
-                }
-                if(prime[item]) answer++;
+                // System.out.println(inte+" "+isPrime(inte));
+                if(isPrime(inte)) answer++;
             }
         }
         return answer;
     }
-    public void dfs(String numbers, int lev, int level, int[] path, boolean[] visited, List<Integer> list){
-        
+    
+    public void dfs(int lev, int level, String numbers){
         if(lev == level){
             StringBuilder sb = new StringBuilder();
-            for(int i=0;i<lev;i++){
+            for(int i=0;i<level;i++){
                 sb.append(path[i]);
             }
-            String tmp = sb.toString();
-            int tmpV = Integer.parseInt(tmp);
-            list.add(tmpV);
+            int number = Integer.parseInt(sb.toString());
+            set.add(number);
             return;
         }
         for(int i=0;i<numbers.length();i++){
-            if(visited[i] == false){
-                visited[i] = true;
-                path[lev] = numbers.charAt(i)-'0';
-                dfs(numbers, lev+1, level, path, visited, list);
-                visited[i] = false;
+            if(!visit[i]){
+                visit[i] = true;
+                path[lev] = numbers.charAt(i);
+                dfs(lev+1, level, numbers);
+                visit[i] = false;
             }
         }
+    }
+    
+    public boolean isPrime(int number){
+        boolean[] visited = new boolean[number + 1];
+        for(int i=0;i<number+1;i++){
+            visited[i] = true;
+        }
+        visited[0] = false;
+        visited[1] = false;
+        for(int i=2;i<=Math.sqrt(number);i++){
+            if(visited[i]){
+                for(int j=i*i;j<=number;j+=i){
+                    visited[j] = false;
+                }
+            }
+        }
+        // for(int i=0;i<visited.length;i++){
+        //     System.out.print(visited[i]+" ");
+        // }
+        return visited[number];
     }
 }
