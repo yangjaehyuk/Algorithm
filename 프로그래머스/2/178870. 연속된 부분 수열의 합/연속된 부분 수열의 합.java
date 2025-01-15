@@ -1,36 +1,50 @@
 import java.util.*;
 class Solution {
-    public static int right = 0;
-    public static int sum = 0;
-    public static int cnt = 0;
     public int[] solution(int[] sequence, int k) {
-        int[] answer = new int[2];
-        if(sequence[0] == k){
-            answer[0] = 0;
-            answer[1] = 0;
-            return answer;
-        }
+        int[] answer = {};
+        answer = new int[2];
+        answer[0] = Integer.MAX_VALUE;
+        answer[1] = Integer.MAX_VALUE;
+        int left = 0;
+        int right = 0;
+        int tmp = sequence[0];
+        int mini = Integer.MAX_VALUE;
         for(int i=0;i<sequence.length;i++){
-            while(right<sequence.length && sum < k){
-                sum += sequence[right];
-                right++;
+            if(sequence[i] == k) {
+                answer[0] = i;
+                answer[1] = i;
+                return answer;
             }
-            if(sum == k){
-                cnt++;
-                int end = right-1;
-                if(answer[0] == 0 && answer[1] == 0){
-                    answer[0] = i;
-                    answer[1] = end;
-                }
-                else{
-                    if(end - i < answer[1] - answer[0]){
-                        answer[0] = i;
-                        answer[1] = end;
+        }
+        while(right < sequence.length){
+            if(tmp == k) {
+                int diff = right - left;
+                if(mini == diff){
+                    if(left < answer[0]){
+                        answer[0] = left;
+                        answer[1] = right;
                     }
                 }
-                
+                else if(mini > diff){
+                    answer[0] = left;
+                    answer[1] = right;
+                    mini = diff;
+                }
+                tmp -= sequence[left];
+                left++;
             }
-            sum -= sequence[i];
+            else{
+                if(tmp < k){
+                    right++;
+                    if (right < sequence.length) {
+                        tmp += sequence[right];
+                    }
+                }
+                else {
+                    tmp-=sequence[left];
+                    left++;
+                }
+            }
         }
         return answer;
     }
