@@ -2,26 +2,35 @@ import java.util.*;
 class Solution {
     public int solution(int bridge_length, int weight, int[] truck_weights) {
         int answer = 0;
-        Queue<Integer> q = new LinkedList<>();
-        int cur = 0;
-        int idx = 0;
-        while(true){
-            if(idx == truck_weights.length) break;
-            if(q.size() == bridge_length){
-                cur -= q.poll();
-            }
-            else if(cur + truck_weights[idx] > weight){
-                q.add(0);
-                answer++;
-            }
-            else{
-                q.add(truck_weights[idx]);
-                cur += truck_weights[idx];
-                idx++;
-                answer++;
-            }
-            
+        int tmp = 0;
+        Queue<Integer> ing = new LinkedList<>();
+        Queue<Integer> end = new LinkedList<>();
+        Queue<Integer> wait = new LinkedList<>();
+        for(int i=0;i<truck_weights.length;i++){
+            wait.add(truck_weights[i]);
         }
-        return answer + bridge_length;
+        while(true){
+            answer++;
+            if(end.size() == truck_weights.length) break;
+            if(ing.size() == bridge_length){
+                int x = ing.poll();
+                if(x != 0) end.add(x);
+                tmp -= x;
+            }
+            if(!wait.isEmpty() && ing.size() < bridge_length) {
+                int y = wait.peek();
+                if (tmp + y <= weight) {
+                    tmp += y; 
+                    ing.add(wait.poll()); 
+                } 
+                else {
+                    ing.add(0); 
+                }
+            }
+            else if (wait.isEmpty()) {
+                ing.add(0);
+            }
+        }
+        return answer - 1;
     }
 }
