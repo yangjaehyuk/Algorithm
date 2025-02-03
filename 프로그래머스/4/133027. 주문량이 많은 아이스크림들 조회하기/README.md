@@ -1,6 +1,6 @@
 # [level 4] 주문량이 많은 아이스크림들 조회하기 - 133027 
 
-[문제 링크](https://school.programmers.co.kr/learn/courses/30/lessons/133027?language=mysql) 
+[문제 링크](https://school.programmers.co.kr/learn/courses/30/lessons/133027?language=oracle) 
 
 ### 성능 요약
 
@@ -16,7 +16,7 @@ Empty
 
 ### 제출 일자
 
-2025년 01월 31일 19:00:49
+2025년 02월 03일 20:40:56
 
 ### 문제 설명
 
