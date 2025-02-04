@@ -1,6 +1,6 @@
 # [level 3] 조회수가 가장 많은 중고거래 게시판의 첨부파일 조회하기 - 164671 
 
-[문제 링크](https://school.programmers.co.kr/learn/courses/30/lessons/164671) 
+[문제 링크](https://school.programmers.co.kr/learn/courses/30/lessons/164671?language=oracle) 
 
 ### 성능 요약
 
@@ -16,7 +16,7 @@ Empty
 
 ### 제출 일자
 
-2024년 10월 06일 23:27:15
+2025년 02월 04일 12:58:02
 
 ### 문제 설명
 
