@@ -2,73 +2,92 @@ import java.util.*;
 class Solution {
     public double[] solution(int k, int[][] ranges) {
         double[] answer = {};
-        List<Double> ans = new ArrayList<>();
-        Map<Long, Integer> map = new HashMap<>();
-        List<Double> list = new ArrayList<>();
-        map.put(0L, k);
-        long idx = 1;
-        while(k != 1){
-            if(k % 2 == 0){
-                k /= 2;
-                map.put(idx, k);
-                idx++;
+        answer = new double[ranges.length];
+        List<Pair> list = new ArrayList<>();
+        long num = 0;
+        list.add(new Pair(num, k));
+        while(true){
+            if(k == 1){
+                break;
+            }
+            if(k > 1){
+                if(k % 2 == 0){
+                    num++;
+                    k/=2;
+                    list.add(new Pair(num, k));
+                }
+                else{
+                    num++;
+                    k*=3;
+                    k++;
+                    list.add(new Pair(num, k));
+                }
+            }
+        }
+        // for(int i=0;i<list.size();i++){
+        //     System.out.println(list.get(i).x+" "+list.get(i).y);
+        // }
+        List<Double> section = new ArrayList<>();
+        for(int i=0;i<list.size() - 1;i++){
+            double shortsero = Math.min(list.get(i).y, list.get(i+1).y) * 1.0;
+            double longsero = Math.max(list.get(i).y, list.get(i+1).y) * 1.0;
+            if(longsero == shortsero){
+                section.add(longsero * 1);
             }
             else{
-                k *= 3;
-                k++;
-                map.put(idx, k);
-                idx++;
+                section.add(shortsero * 1.0 + (longsero - shortsero) * 1 / 2.0);
             }
         }
-        long n = idx - 1;
-        for(long i = 0;i < map.size() - 1;i++){
-            double mini = (double)Math.min(map.get(i), map.get(i+1));
-            double maxi = (double)Math.max(map.get(i), map.get(i+1));
-            double size = mini + (maxi - mini) / 2;
-            list.add(size);
-        }
+        
+        // for(int i=0;i<section.size();i++){
+        //     System.out.println(section.get(i));
+        // }
+        
         for(int i=0;i<ranges.length;i++){
-            int[] tmp = ranges[i];
-            int x = tmp[0];
-            int y = tmp[1];
             double tmpv = 0.0;
+            int x = ranges[i][0];
+            int y = ranges[i][1];
             if(x == 0 && y == 0){
-                for(int j=0;j<list.size();j++){
-                    tmpv += list.get(j);
+                for(int j=0;j<section.size();j++){
+                    tmpv += section.get(j);
                 }
-                ans.add(tmpv);
+                answer[i] = tmpv;
             }
             else if(y <= 0){
-                long tmpY = n - Math.abs(y);
-                if(x > tmpY) ans.add(-1.0);
+                long tmpY = num - Math.abs(y);
+                if(x > tmpY) answer[i] = -1.0;
                 else{
-                    if(x == tmpY) ans.add(0.0);
+                    if(x == tmpY) answer[i] = 0.0;
                     else{
                         for(int j=x;j<tmpY;j++){
-                            tmpv += list.get(j);
+                            tmpv += section.get(j);
                         }
-                        ans.add(tmpv);
+                        answer[i] = tmpv;
                     }
                 }
             }
             else if(x >= 0 && y >= 0){
-                if(x == y) ans.add(0.0);
+                if(x == y) answer[i] = 0.0;
                 else{
                     if(x < y) {
                         for(int j=x;j<y;j++){
-                            tmpv += list.get(j);
+                            tmpv += section.get(j);
                         }
-                        ans.add(tmpv);
+                        answer[i] = tmpv;
                     }
-                    else ans.add(-1.0);
+                    else answer[i] = -1.0;
                 }
             }
-            
-        }
-        answer = new double[ans.size()];
-        for(int i=0;i<ans.size();i++){
-            answer[i] = ans.get(i);
         }
         return answer;
+    }
+    
+    private class Pair{
+        long x;
+        int y;
+        Pair(long x, int y){
+            this.x = x;
+            this.y = y;
+        }
     }
 }
